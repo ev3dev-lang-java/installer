@@ -28,6 +28,13 @@ fi
 echo $PLATFORM
 T2="EV3"
 
+a=879
+echo "The value of \"a\" is $a."
+
+# Assignment using 'let'
+let a=16+5
+echo "The value of \"a\" is now $a."
+
 echo ""
 echo "##############################"
 echo "# JAVA SECTION               #"
@@ -62,3 +69,5 @@ else
     echo "BRICKPI"
     #apt-get install libbluetooth-dev
 fi
+
+exit 0
