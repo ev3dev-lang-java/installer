@@ -5,7 +5,7 @@
 PLATFORM="UNKNOWN"
 
 #0. Detect platform
-if [ -p "/sys/class/power_supply/legoev3-battery" ]; then
+if [ -d "/sys/class/power_supply/legoev3-battery" ]; then
   echo "The user has a EV3 Brick"
   PLATFORM="EV3"
 else
