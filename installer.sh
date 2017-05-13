@@ -25,8 +25,8 @@ else
   echo "The user has a BrickPi+"
   PLATFORM="BRICKPI"
 fi
-echo PLATFORM
-T2 = "EV3"
+echo $PLATFORM
+T2="EV3"
 
 echo ""
 echo "##############################"
