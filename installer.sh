@@ -20,13 +20,14 @@ PLATFORM="UNKNOWN"
 #0. Detect platform
 if [ -d "/sys/class/power_supply/legoev3-battery" ]; then
   echo "The user has a EV3 Brick"
-  PLATFORM="EV3"
+  let PLATFORM="EV3"
 else
   echo "The user has a BrickPi+"
-  PLATFORM="BRICKPI"
+  let PLATFORM="BRICKPI"
 fi
 echo $PLATFORM
 T2="EV3"
+echo $T2
 
 a=879
 echo "The value of \"a\" is $a."
