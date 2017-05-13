@@ -51,12 +51,12 @@ echo "##############################"
 echo ""
 
 #2. Install Bluetooth
-if [PLATFORM=="EV3" ]
+if ["$PLATFORM" = "EV3" ];
 then
     echo "EV3"
     wget http://ftp.us.debian.org/debian/pool/main/b/bluez/libbluetooth-dev_5.23-2+b1_armel.deb
     dpkg -i libbluetooth-dev_5.23-2+b1_armel.deb
 else
     echo "BRICKPI"
-    apt get install libbluetooth-dev
+    #apt-get install libbluetooth-dev
 fi
