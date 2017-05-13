@@ -46,6 +46,10 @@ elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
     _java="$JAVA_HOME/bin/java"
 else
     echo "no java"
+
+    #Manual installer of Java 8
+    wget 
+    source ev3-java8-installer.sh
 fi
 
 echo ""
@@ -58,8 +62,9 @@ echo ""
 if [ "$PLATFORM" == "$EV3" ];
 then
     echo $EV3
-    wget http://ftp.us.debian.org/debian/pool/main/b/bluez/libbluetooth-dev_5.23-2+b1_armel.deb
-    sudo dpkg -i libbluetooth-dev_5.23-2+b1_armel.deb
+    #isInstalled libbluetooth-dev
+    #wget http://ftp.us.debian.org/debian/pool/main/b/bluez/libbluetooth-dev_5.23-2+b1_armel.deb
+    #sudo dpkg --force-depends-version -i libbluetooth-dev_5.23-2+b1_armel.deb
 else
     echo $BRICKPI
     isInstalled libbluetooth-dev
