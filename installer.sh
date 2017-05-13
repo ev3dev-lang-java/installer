@@ -29,13 +29,6 @@ echo $PLATFORM
 T2="EV3"
 echo $T2
 
-a=879
-echo "The value of \"a\" is $a."
-
-# Assignment using 'let'
-let a=16+5
-echo "The value of \"a\" is now $a."
-
 echo ""
 echo "##############################"
 echo "# JAVA SECTION               #"
