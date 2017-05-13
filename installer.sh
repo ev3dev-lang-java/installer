@@ -2,11 +2,18 @@
 # A Bash script to install Linux Libraries used on EV3Dev-lang-java.
 # Author: Juan Antonio Breña Moral, bren@juanantonio.info
 
+echo ""
 echo "##############################"
 echo "# EV3Dev-lang-java Installer #"
 echo "##############################"
 echo "# Last update: 2017/05/13    #"
 echo "##############################"
+echo ""
+
+echo "##############################"
+echo "# PLATFORM SECTION           #"
+echo "##############################"
+echo ""
 
 PLATFORM="UNKNOWN"
 
@@ -18,6 +25,11 @@ else
   echo "The user has a BrickPi+"
   PLATFORM="BRICKPI"
 fi
+
+echo "##############################"
+echo "# JAVA SECTION               #"
+echo "##############################"
+echo ""
 
 #1. Detect Java
 #1.1 Install Java PENDING
@@ -31,6 +43,11 @@ elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
 else
     echo "no java"
 fi
+
+echo "##############################"
+echo "# BLUETOOTH SECTION          #"
+echo "##############################"
+echo ""
 
 #2. Install Bluetooth
 if [PLATFORM=="EV3" ]
