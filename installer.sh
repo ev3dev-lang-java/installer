@@ -16,18 +16,19 @@ echo "##############################"
 echo ""
 
 PLATFORM="UNKNOWN"
+EV3="EV3"
+BRICKPI="BRICKPI"
 
 #0. Detect platform
 if [ -d "/sys/class/power_supply/legoev3-battery" ]; then
   echo "The user has a EV3 Brick"
-  PLATFORM="EV3"
+  PLATFORM=$EV3
 else
   echo "The user has a BrickPi+"
-  PLATFORM="BRICKPI"
+  PLATFORM=$BRICKPI
 fi
 echo $PLATFORM
-T2="EV3"
-echo $T2
+echo $EV3
 
 echo ""
 echo "##############################"
