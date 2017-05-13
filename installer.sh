@@ -48,13 +48,14 @@ else
     echo "no java"
 fi
 
+echo ""
 echo "##############################"
 echo "# BLUETOOTH SECTION          #"
 echo "##############################"
 echo ""
 
 #2. Install Bluetooth
-if ["$PLATFORM" = "$T2" ];
+if ["$PLATFORM" == "$T2" ];
 then
     echo "EV3"
     wget http://ftp.us.debian.org/debian/pool/main/b/bluez/libbluetooth-dev_5.23-2+b1_armel.deb
@@ -66,7 +67,7 @@ else
 fi
 
 # Utilities
-INSTALLED = "NO";
+INSTALLED="NO";
 function isInstalled(){
     echo "Parameter #1 is $1"
     local result = dpkg-query -W -f='${Status}\n' $1 | head -n1 | awk '{print $3;}' | grep -q '^installed$'
