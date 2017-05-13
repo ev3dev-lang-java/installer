@@ -48,7 +48,7 @@ else
     echo "no java"
 
     #Manual installer of Java 8
-    wget 
+    wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/ev3-java8-installer.sh
     source ev3-java8-installer.sh
 fi
 
