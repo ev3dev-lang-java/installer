@@ -1,6 +1,12 @@
 #!/bin/bash
-# A Bash scripts to install Libraries and Configure a Brick in an easy Way.
+# A Bash script to install Linux Libraries used on EV3Dev-lang-java.
 # Author: Juan Antonio Breña Moral, bren@juanantonio.info
+
+echo "##############################"
+echo "# EV3Dev-lang-java Installer #"
+echo "##############################"
+echo "# Last update: 2017/05/13    #"
+echo "##############################"
 
 PLATFORM="UNKNOWN"
 
