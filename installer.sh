@@ -26,6 +26,7 @@ else
   PLATFORM="BRICKPI"
 fi
 
+echo ""
 echo "##############################"
 echo "# JAVA SECTION               #"
 echo "##############################"
