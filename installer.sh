@@ -5,7 +5,7 @@
 PLATFORM="UNKNOWN"
 
 #0. Detect platform
-if [ -p "$HOME/bin" ]; then
+if [ -p "/sys/class/power_supply/legoev3-battery" ]; then
   echo "The user has a EV3 Brick"
   PLATFORM="EV3"
 else
@@ -39,8 +39,8 @@ fi
 #2. Install Bluetooth
 if [PLATFORM=="EV3" ]
 then
-    echo ""
+    echo "EV3"
 else
-    echo ""
+    echo "BRICKPI"
     apt get install libbluetooth-dev
 fi
