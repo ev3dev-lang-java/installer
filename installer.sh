@@ -25,6 +25,8 @@ else
   echo "The user has a BrickPi+"
   PLATFORM="BRICKPI"
 fi
+echo PLATFORM
+T2 = "EV3"
 
 echo ""
 echo "##############################"
@@ -51,7 +53,7 @@ echo "##############################"
 echo ""
 
 #2. Install Bluetooth
-if ["$PLATFORM" == "EV3" ];
+if ["$PLATFORM" = "$T2" ];
 then
     echo "EV3"
     wget http://ftp.us.debian.org/debian/pool/main/b/bluez/libbluetooth-dev_5.23-2+b1_armel.deb
