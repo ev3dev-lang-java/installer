@@ -10,19 +10,6 @@ echo "# Last update: 2017/05/14    #"
 echo "##############################"
 echo ""
 
-#Platform
-wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/platform.sh
-source modules/platform.sh
-
-#Java
-wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/java.sh
-source modules/java.sh
-
-#Bluetooth
-wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/bluetooth.sh
-source modules/bluetooth.sh
-
-
 # Utilities
 INSTALLED="NO";
 function isInstalled(){
@@ -30,5 +17,20 @@ function isInstalled(){
     local result = dpkg-query -W -f='${Status}\n' $1 | head -n1 | awk '{print $3;}' | grep -q '^installed$'
     INSTALLED=$result;
 }
+
+function runModule(){
+    local domain="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
+    wget "$domain/$1.sh"
+    source "modules/$1.sh"
+}
+
+#Platform
+runModule platform
+
+#Java
+runModule java
+
+#Bluetooth
+runModule bluetooth
 
 exit 0
