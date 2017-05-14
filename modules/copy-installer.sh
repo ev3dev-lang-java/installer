@@ -3,7 +3,7 @@
 if [ -e "/home/robot/installer/installer.sh" ]; then
     echo $CREDENTIAL
     ssh $CREDENTIAL 'uptime'
-    ssh $CREDENTIAL 'mkdir /home/robot/installer'
+    ssh $CREDENTIAL 'sudo mkdir /home/robot/installer/'
     scp "/home/robot/installer/installer.sh" "$CREDENTIAL:/home/robot/installer"
     ssh $CREDENTIAL 'sudo chmod +x /home/robot/installer.sh'
     exit
