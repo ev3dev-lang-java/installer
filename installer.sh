@@ -39,7 +39,7 @@ runModule utilities 0
 
 CREDENTIAL=""
 if [ "$1" == "$MODE_JDK" ]; then
-    CREDENTIAL = $2
+    CREDENTIAL=$2
     runModule copy-jdk
     exit 0
 fi
