@@ -7,6 +7,7 @@ if [ "$PLATFORM" == "$UNKNOWN" ]; then
     echo
 else
     #apt-get update
+    isInstalled libc6
     isInstalled libopencv2.4-java
     if [ "$INSTALLED" == "$INSTALLED_NO" ]; then
         apt-get install libopencv2.4-java
