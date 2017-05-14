@@ -24,7 +24,6 @@ echo "# PLATFORM SECTION           #"
 echo "##############################"
 echo ""
 
-#Platform
 runModule platform
 
 echo ""
@@ -33,7 +32,6 @@ echo "# JAVA SECTION               #"
 echo "##############################"
 echo ""
 
-#Java
 runModule java
 
 #Bluetooth
