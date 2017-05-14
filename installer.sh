@@ -30,8 +30,8 @@ function initInstaller(){
     rm ./$MODULE_FOLDER/*
 }
 
-$MODE_EXTENDED="extended"
-$MODE_JDK="jdk"
+MODE_EXTENDED="extended"
+MODE_JDK="jdk"
 
 #Init
 initInstaller
