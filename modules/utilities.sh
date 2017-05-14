@@ -33,10 +33,16 @@ function createHeader() {
 }
 
 # Detect a library
-INSTALLED="NO";
+INSTALLED_YES="YES";
+INSTALLED_NO="NO";
+INSTALLED=$INSTALLED_NO;
+PATTERN_NOT_FOUND="no packages found";
 function isInstalled(){
-    echo "Parameter #1 is $1"
     local result=$(dpkg-query -W -f='${Status}\n' $1 | head -n1 | awk '{print $3;}' | grep -q '^installed$')
-    echo result
-    INSTALLED=$result;
+    if echo "$result" | grep -q "$PATTERN_NOT_FOUND"; then
+        INSTALLED=$INSTALLED_NO
+    else
+        INSTALLED=$INSTALLED_YES
+    fi
+    echo $INSTALLED
 }
