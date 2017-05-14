@@ -6,8 +6,7 @@ if [ "$PLATFORM" == "$UNKNOWN" ]; then
     echo "This platform: $PLATFORM is not suitable for Battery Monitor."
     echo
 else
-    #apt-get update
-    isInstalled libc6
+    apt-get update
     isInstalled libopencv2.4-java
     if [ "$INSTALLED" == "$INSTALLED_NO" ]; then
         apt-get install libopencv2.4-java
