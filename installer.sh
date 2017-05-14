@@ -6,28 +6,13 @@ echo ""
 echo "##############################"
 echo "# EV3Dev-lang-java Installer #"
 echo "##############################"
-echo "# Last update: 2017/05/13    #"
+echo "# Last update: 2017/05/14    #"
 echo "##############################"
 echo ""
 
-echo "##############################"
-echo "# PLATFORM SECTION           #"
-echo "##############################"
-echo ""
-
-PLATFORM="UNKNOWN"
-EV3="EV3"
-BRICKPI="BRICKPI"
-
-#0. Detect platform
-if [ -d "/sys/class/power_supply/legoev3-battery" ]; then
-  echo "The user has a EV3 Brick"
-  PLATFORM=$EV3
-else
-  echo "The user has a BrickPi+"
-  PLATFORM=$BRICKPI
-fi
-echo $PLATFORM
+#Platform
+wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/platform.sh
+source modules/platform.sh
 
 #Java
 wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/java.sh
