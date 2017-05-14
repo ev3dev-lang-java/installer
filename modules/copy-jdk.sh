@@ -3,6 +3,7 @@
 if [ -e "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" ]; then
     echo $CREDENTIAL
     scp "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" "$CREDENTIAL:/home/robot"
+    exit
 else
     echo "Sorry, the installer didn´t detect ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz"
     echo "on /home/robot"

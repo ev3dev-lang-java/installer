@@ -30,18 +30,22 @@ function initInstaller(){
     rm ./$MODULE_FOLDER/*
 }
 
-MODE_EXTENDED="extended"
+MODE_HELP="help"
 MODE_JDK="jdk"
+MODE_EXTENDED="extended"
 
 #Init
 initInstaller
 runModule utilities 0
 
+if [ "$1" == "$MODE_HELP" ]; then
+    runModule help
+fi
+
 CREDENTIAL=""
 if [ "$1" == "$MODE_JDK" ]; then
     CREDENTIAL=$2
     runModule copy-jdk
-    exit 0
 fi
 
 runModule platform
