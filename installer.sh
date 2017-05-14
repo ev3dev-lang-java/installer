@@ -12,17 +12,25 @@ echo
 
 OFF=0
 MODULE="EMPTY"
+MODULE_FOLDER="module2"
 function runModule(){
     if ! [ "$2" == "$OFF" ]; then
         createHeader $1
     fi
     local domain="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
-    wget "$domain/$1.sh"
+    wget -N "$domain/$1.sh"
     MODULE=$1
-    mkdir -p modules2
-    mv ./$1.sh ./modules2/$1.sh
-    source "modules2/$1.sh"
+    mv ./$1.sh ./$MODULE_FOLDER/$1.sh
+    source "$MODULE_FOLDER/$1.sh"
 }
+
+function initInstaller(){
+    mkdir -p $MODULE_FOLDER
+    rm $MODULE_FOLDER/*
+}
+
+#Init
+initInstaller
 
 #Utilities
 runModule utilities 0
