@@ -14,6 +14,7 @@ function createLine() {
 
 function createHeader() {
     TITLE=$1
+    TITLE=$(echo "$TITLE SECTION" | awk '{print toupper($0)}')
     TITLE_LEN=${#TITLE}
     createLine
     CENTRAL_LINE="$CHARACTER $TITLE"
@@ -25,13 +26,8 @@ function createHeader() {
     done
     echo "$CENTRAL_LINE #"
     createLine
+    echo
 }
-
-
-#createHeader "PLATFORM SECTION"
-#str="Some string"
-#echo $str | awk '{print toupper($0)}'
-#exit
 
 # Utilities
 INSTALLED="NO";

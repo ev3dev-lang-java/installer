@@ -8,45 +8,28 @@ echo "# EV3Dev-lang-java Installer #"
 echo "##############################"
 echo "# Last update: 2017/05/14    #"
 echo "##############################"
+echo
 
+OFF=0
+MODULE="EMPTY"
 function runModule(){
+    if [ "$2" == "$OFF" ]; then
+        echo
+    else
+        createHeader $1
+    fi
     local domain="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
     wget "$domain/$1.sh"
+    MODULE=$1
     source "modules/$1.sh"
 }
 
 #Utilities
-runModule utilities
-
-echo
-echo "##############################"
-echo "# PLATFORM SECTION           #"
-echo "##############################"
-echo
-
+runModule utilities 0
 runModule platform
 
-echo
-echo "##############################"
-echo "# JAVA SECTION               #"
-echo "##############################"
-echo
-
 runModule java
-
-echo
-echo "###############################"
-echo "# BATTERY MONITOR SECTION     #"
-echo "###############################"
-echo
-
 runModule battery-monitor
-
-echo "################################"
-echo "# NATIVE LIBRARIES SECTION     #"
-echo "################################"
-echo
-
 runModule native-libraries
 
 exit 0

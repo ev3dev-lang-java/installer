@@ -37,7 +37,4 @@ else
 
 fi
 
-echo
-echo "##############################"
-echo "# END JAVA SECTION           #"
-echo "##############################"
+createHeader "END $MODULE"

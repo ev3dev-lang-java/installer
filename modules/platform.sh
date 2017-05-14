@@ -26,6 +26,4 @@ if [ "$PLATFORM" == "$UNKNOWN" ]; then
     #exit 1
 fi
 
-echo "##############################"
-echo "# END PLATFORM SECTION       #"
-echo "##############################"
+createHeader "END $MODULE"

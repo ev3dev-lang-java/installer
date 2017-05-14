@@ -31,7 +31,4 @@ else
 
 fi
 
-echo "###############################"
-echo "# END BATTERY MONITOR SECTION #"
-echo "###############################"
-echo
+createHeader "END $MODULE"

@@ -12,7 +12,4 @@ else
 
 fi
 
-echo "################################"
-echo "# END NATIVE LIBRARIES SECTION #"
-echo "################################"
-echo
+createHeader "END $MODULE"
