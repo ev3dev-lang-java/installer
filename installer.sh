@@ -25,6 +25,7 @@ function runModule(){
 }
 
 function initInstaller(){
+    echo "Init installer"
     mkdir -p $MODULE_FOLDER
     rm $MODULE_FOLDER/*
 }
