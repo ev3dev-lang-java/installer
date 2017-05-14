@@ -56,15 +56,10 @@ fi
 
 runModule platform
 runModule java
-
-exit
-
 runModule battery-monitor
 
 if [ "$1" == "$MODE_EXTENDED" ]; then
     runModule native-libraries
 fi
-
-
 
 exit 0
