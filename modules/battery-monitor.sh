@@ -3,6 +3,12 @@
 function installBatteryMonitor() {
     cd /home/robot
     wget https://github.com/ev3dev-lang-java/batteryMonitor/raw/develop/releases/batteryMonitor-0.2.0-SNAPSHOT.zip
+
+    isInstalled unzip
+    if [ "$INSTALLED" == "$INSTALLED_NO" ]; then
+        apt-get install unzip
+    fi
+
     unzip batteryMonitor-0.2.0-SNAPSHOT.zip
     mv batteryMonitor-0.2.0-SNAPSHOT batteryMonitor
     cd batteryMonitor
