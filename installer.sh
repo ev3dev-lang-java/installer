@@ -30,16 +30,29 @@ function initInstaller(){
     rm ./$MODULE_FOLDER/*
 }
 
+$MODE_EXTENDED="extended"
+$MODE_JDK="jdk"
+
 #Init
 initInstaller
 runModule utilities 0
+
+CREDENTIAL=""
+if [ "$1" == "$MODE_JDK" ]; then
+    CREDENTIAL = $2
+    runModule copy-jdk
+    exit 0
+fi
 
 runModule platform
 runModule java
 
 exit
 
+if [ "$1" == "$MODE_EXTENDED" ]; then
+    runModule native-libraries
+fi
+
 runModule battery-monitor
-runModule native-libraries
 
 exit 0
