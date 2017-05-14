@@ -44,6 +44,10 @@ fi
 
 if [ -e "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" ]; then
     echo "ok"
+    tar -zxvf "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" -C /home/robot/
+    #/opt
+    #update-alternatives --install /usr/bin/java java /opt/ejdk1.8.0/linux_arm_sflt/jre/bin/java 1
+    #java -version
 else
     echo "nok"
 fi
