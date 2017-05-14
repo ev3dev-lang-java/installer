@@ -19,13 +19,24 @@ function runModule(){
 #Utilities
 runModule utilities
 
+echo "##############################"
+echo "# PLATFORM SECTION           #"
+echo "##############################"
+echo ""
+
 #Platform
 runModule platform
+
+echo ""
+echo "##############################"
+echo "# JAVA SECTION               #"
+echo "##############################"
+echo ""
 
 #Java
 runModule java
 
 #Bluetooth
-runModule bluetooth
+#runModule bluetooth
 
 exit 0

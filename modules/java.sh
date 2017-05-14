@@ -22,3 +22,9 @@ else
     wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/java-ev3-java8-installer.sh
     #source modules/java-ev3-java8-installer.sh
 fi
+
+echo ""
+echo "##############################"
+echo "# END JAVA SECTION           #"
+echo "##############################"
+echo ""

@@ -1,10 +1,5 @@
 #!/bin/bash
 
-echo "##############################"
-echo "# PLATFORM SECTION           #"
-echo "##############################"
-echo ""
-
 EV3="EV3"
 BRICKPI="BRICKPI"
 UNKNOWN="UNKNOWN"
@@ -29,3 +24,8 @@ if [ "$PLATFORM" == "$UNKNOWN" ]; then
     echo ""
     #exit 1
 fi
+
+echo "##############################"
+echo "# END PLATFORM SECTION       #"
+echo "##############################"
+echo ""
