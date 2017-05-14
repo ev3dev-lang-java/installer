@@ -29,47 +29,14 @@ else
 fi
 echo $PLATFORM
 
-echo ""
-echo "##############################"
-echo "# JAVA SECTION               #"
-echo "##############################"
-echo ""
+#Java
+wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/java.sh
+source modules/java.sh
 
-#1. Detect Java
-#1.1 Install Java PENDING
-#1.2 Create JAVA_HOME PENDING
-if type -p java; then
-    echo found java executable in PATH
-    _java=java
-elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
-    echo found java executable in JAVA_HOME
-    _java="$JAVA_HOME/bin/java"
-else
-    echo "no java"
+#Bluetooth
+wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/bluetooth.sh
+source modules/bluetooth.sh
 
-    #Manual installer of Java 8
-    wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/ev3-java8-installer.sh
-    source ev3-java8-installer.sh
-fi
-
-echo ""
-echo "##############################"
-echo "# BLUETOOTH SECTION          #"
-echo "##############################"
-echo ""
-
-#2. Install Bluetooth
-if [ "$PLATFORM" == "$EV3" ];
-then
-    echo $EV3
-    #isInstalled libbluetooth-dev
-    #wget http://ftp.us.debian.org/debian/pool/main/b/bluez/libbluetooth-dev_5.23-2+b1_armel.deb
-    #sudo dpkg --force-depends-version -i libbluetooth-dev_5.23-2+b1_armel.deb
-else
-    echo $BRICKPI
-    isInstalled libbluetooth-dev
-    #apt-get install libbluetooth-dev
-fi
 
 # Utilities
 INSTALLED="NO";
@@ -78,4 +45,5 @@ function isInstalled(){
     local result = dpkg-query -W -f='${Status}\n' $1 | head -n1 | awk '{print $3;}' | grep -q '^installed$'
     INSTALLED=$result;
 }
+
 exit 0
