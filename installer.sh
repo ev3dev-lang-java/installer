@@ -13,15 +13,15 @@ echo
 OFF=0
 MODULE="EMPTY"
 function runModule(){
-    if [ "$2" == "$OFF" ]; then
-        echo
-    else
+    if ! [ "$2" == "$OFF" ]; then
         createHeader $1
     fi
     local domain="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
     wget "$domain/$1.sh"
     MODULE=$1
-    source "modules/$1.sh"
+    mkdir -p modules2
+    mv ./$1.sh ./modules2/$1.sh
+    source "modules2/$1.sh"
 }
 
 #Utilities

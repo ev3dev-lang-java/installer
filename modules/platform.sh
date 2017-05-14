@@ -23,7 +23,7 @@ if [ "$PLATFORM" == "$UNKNOWN" ]; then
     echo "Open a issue if the problem continues:"
     echo "https://github.com/ev3dev-lang-java/ev3dev-lang-java/issues"
     echo
-    #exit 1
+    exit 1
 fi
 
 createHeader "END $MODULE"
