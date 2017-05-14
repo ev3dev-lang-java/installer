@@ -32,6 +32,7 @@ function initInstaller(){
 
 MODE_HELP="help"
 MODE_JDK="jdk"
+MODE_COPY_INSTALLER="copy-installer"
 MODE_EXTENDED="extended"
 
 #Init
@@ -46,6 +47,11 @@ CREDENTIAL=""
 if [ "$1" == "$MODE_JDK" ]; then
     CREDENTIAL=$2
     runModule copy-jdk
+fi
+
+if [ "$1" == "$MODE_COPY_INSTALLER" ]; then
+    CREDENTIAL=$2
+    runModule copy-installer
 fi
 
 runModule platform
