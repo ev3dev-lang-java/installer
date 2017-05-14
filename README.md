@@ -12,9 +12,9 @@ This project tries to save time in this process.
 The installer will install the following libraries & utilities:
 
 + Java JDK 8 (Only for BrickPi/PiStorms)
-+ BatteryMonitor (A Java utility to monitor the Battery)
++ [BatteryMonitor](https://github.com/ev3dev-lang-java/batteryMonitor) (A Java utility to monitor the Battery)
 + OpenCV
-+ RXTX (Library used on RPLIDAR4J)
++ RXTX (Library used on [RPLIDAR4J](https://github.com/ev3dev-lang-java/RPLidar4J))
 
 ## Getting Started
 
