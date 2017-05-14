@@ -13,19 +13,19 @@ elif [ -d "/sys/class/power_supply/brickpi-battery" ]; then
   echo "The user has a BrickPi+"
   PLATFORM=$BRICKPI
 fi
-echo $PLATFORM
+echo "Platform detected: $PLATFORM"
+echo
 
 if [ "$PLATFORM" == "$UNKNOWN" ]; then
     echo "Sorry, this platform is not recognized by the installer."
     echo "This installer was designed for EV3Dev hardware."
-    echo ""
+    echo
     echo "Open a issue if the problem continues:"
     echo "https://github.com/ev3dev-lang-java/ev3dev-lang-java/issues"
-    echo ""
+    echo
     #exit 1
 fi
 
 echo "##############################"
 echo "# END PLATFORM SECTION       #"
 echo "##############################"
-echo ""

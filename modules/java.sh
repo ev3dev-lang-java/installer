@@ -1,11 +1,5 @@
 #!/bin/bash
 
-echo ""
-echo "##############################"
-echo "# JAVA SECTION               #"
-echo "##############################"
-echo ""
-
 function installJava() {
     apt-key adv --recv-key --keyserver keyserver.ubuntu.com EEA14886
     echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
@@ -22,6 +16,7 @@ function installJava() {
 #1.2 Create JAVA_HOME PENDING
 if type -p java; then
     echo "Found java executable in PATH"
+    java -version
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
     echo "found java executable in JAVA_HOME"
 else
@@ -42,8 +37,7 @@ else
 
 fi
 
-echo ""
+echo
 echo "##############################"
 echo "# END JAVA SECTION           #"
 echo "##############################"
-echo ""
