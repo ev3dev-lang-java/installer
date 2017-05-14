@@ -33,7 +33,17 @@ sudo reboot
 ### EV3 Brick and Java
 
 If you are using a EV3Brick, you will have to install Java JRE8 Manually.
-https://github.com/ev3dev-lang-java/docs/blob/master/docs/GettingStartedBrick.md
+Download the file: `ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz` from:
+http://www.oracle.com/technetwork/java/embedded/downloads/javase/javaseemeddedev3-1982511.html
+and copy the file the following route: `/home/robot/`
+
+**Example:**
+
+```
+scp "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" "robot@192.168.1.85:/home/robot"
+```
+
+The Installer will manage later.
 
 ### Running the installer
 
