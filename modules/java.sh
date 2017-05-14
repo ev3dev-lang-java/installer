@@ -42,4 +42,11 @@ fi
 
 fi
 
+if [ -e "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" ]; then
+    echo "ok"
+else
+    echo "nok"
+fi
+
+
 createHeader "END $MODULE"
