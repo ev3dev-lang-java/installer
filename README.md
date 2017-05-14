@@ -1,5 +1,5 @@
 # installer
-A Bash script to install everything related with EV3Dev-lang-java
+A Bash script to install everything related with [EV3Dev-lang-java](http://ev3dev-lang-java.github.io/)
 
 ## Motivation
 
