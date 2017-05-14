@@ -10,19 +10,14 @@ echo "# Last update: 2017/05/14    #"
 echo "##############################"
 echo ""
 
-# Utilities
-INSTALLED="NO";
-function isInstalled(){
-    echo "Parameter #1 is $1"
-    local result = dpkg-query -W -f='${Status}\n' $1 | head -n1 | awk '{print $3;}' | grep -q '^installed$'
-    INSTALLED=$result;
-}
-
 function runModule(){
     local domain="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
     wget "$domain/$1.sh"
     source "modules/$1.sh"
 }
+
+#Utilities
+runModule utilities
 
 #Platform
 runModule platform
