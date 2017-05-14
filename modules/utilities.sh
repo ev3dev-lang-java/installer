@@ -39,9 +39,9 @@ INSTALLED=$INSTALLED_NO;
 PATTERN_NOT_FOUND="no packages found";
 function isInstalled(){
     if dpkg-query -W $1; then
-        INSTALLED=$INSTALLED_NO
-    else
         INSTALLED=$INSTALLED_YES
+    else
+        INSTALLED=$INSTALLED_NO
     fi
     echo $INSTALLED
 }
