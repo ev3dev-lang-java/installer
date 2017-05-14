@@ -2,9 +2,9 @@
 
 if [ -e "/home/robot/installer/installer.sh" ]; then
     echo $CREDENTIAL
-    ssh $CREDENTIAL 'bash -s' < mkdir installer
-    scp "/home/robot/installer/installer.sh" "$CREDENTIAL:/home/robot"
-    ssh $CREDENTIAL 'bash -s' < chmod +x installer.sh
+    ssh $CREDENTIAL 'bash -s' < sudo mkdir /home/robot/installer
+    scp "/home/robot/installer/installer.sh" "$CREDENTIAL:/home/robot/installer"
+    ssh $CREDENTIAL 'bash -s' < sudo chmod +x /home/robot/installer.sh
     exit
 else
     echo "Sorry, the installer didn´t detect the installer"
