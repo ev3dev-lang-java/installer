@@ -39,6 +39,8 @@ INSTALLED=$INSTALLED_NO;
 PATTERN_NOT_FOUND="no packages found";
 function isInstalled(){
     local result=$(dpkg-query -W -f='${Status}\n' $1 | head -n1 | awk '{print $3;}' | grep -q '^installed$')
+    val=$(echo "$result" | grep -q "$PATTERN_NOT_FOUND")
+    echo $val
     if echo "$result" | grep -q "$PATTERN_NOT_FOUND"; then
         INSTALLED=$INSTALLED_NO
     else
