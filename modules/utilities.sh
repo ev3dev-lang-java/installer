@@ -13,6 +13,7 @@ function createLine() {
 }
 
 function createHeader() {
+    echo
     TITLE=$1
     TITLE=$(echo "$TITLE SECTION" | awk '{print toupper($0)}')
     TITLE_LEN=${#TITLE}
