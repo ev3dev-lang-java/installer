@@ -28,6 +28,8 @@ function runModule(){
 runModule utilities 0
 runModule platform
 
+runModule native-libraries
+
 exit
 
 runModule java
