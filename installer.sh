@@ -28,6 +28,8 @@ function runModule(){
 runModule utilities 0
 runModule platform
 
+exit
+
 runModule java
 runModule battery-monitor
 runModule native-libraries
