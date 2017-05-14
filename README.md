@@ -3,7 +3,7 @@ A Bash script to install everything related with EV3Dev-lang-java
 
 ## Motivation
 
-EV3Dev is a fantastic Complete Linux environment
+[EV3Dev](http://www.ev3dev.org/) is a fantastic Complete Linux environment
 to build software for robots. But as any technology, the installation
 require some configuration to run in the right way.
 
