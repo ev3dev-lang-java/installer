@@ -39,5 +39,3 @@ if [ "$PLATFORM" == "$UNKNOWN" ]; then
     echo
     exit 1
 fi
-
-createHeader "END $MODULE"
