@@ -25,7 +25,12 @@ else
     if [ "$PLATFORM" == "$EV3" ]; then
         echo "You have to follow this documentation to install to continue using this installer"
         echo "https://github.com/ev3dev-lang-java/docs/blob/master/docs/GettingStartedBrick.md"
-        exit 1
+
+if [ -e "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" ]; then
+    echo "ok"
+else
+    echo "nok"
+fi
 
         #Manual installer of Java 8
         #wget https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules/java-ev3-java8-installer.sh

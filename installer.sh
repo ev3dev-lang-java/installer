@@ -32,16 +32,13 @@ function initInstaller(){
 
 #Init
 initInstaller
-
-#Utilities
 runModule utilities 0
-runModule platform
 
-runModule native-libraries
+runModule platform
+runModule java
 
 exit
 
-runModule java
 runModule battery-monitor
 runModule native-libraries
 
