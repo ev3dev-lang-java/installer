@@ -32,6 +32,7 @@ function initInstaller(){
 
 MODE_HELP="help"
 MODE_JDK="jdk"
+MODE_BATTERY_MONITOR="batteryMonitor"
 MODE_COPY_INSTALLER="copy-installer"
 MODE_EXTENDED="extended"
 
@@ -57,7 +58,10 @@ fi
 
 runModule platform
 runModule java
-runModule battery-monitor
+
+if [ "$1" == "$MODE_BATTERY_MONITOR" ]; then
+    runModule battery-monitor
+fi
 
 if [ "$1" == "$MODE_EXTENDED" ]; then
     runModule native-libraries

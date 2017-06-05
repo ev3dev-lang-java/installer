@@ -9,9 +9,12 @@ require some configuration to run in the right way.
 
 This project tries to save time in this process.
 
-The installer will install the following libraries & utilities by default:
+The installer will install the following libraries by default:
 
 + Java JDK 8 (Only for BrickPi/PiStorms)
+
+If you like, you can install a utility to monitor the battery. (Recommended)
+
 + [BatteryMonitor](https://github.com/ev3dev-lang-java/batteryMonitor) (A Java utility to monitor the Battery)
 
 But it is possible to install the following libraries if your project requires them.
