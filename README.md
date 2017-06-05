@@ -16,8 +16,8 @@ The installer will install the following libraries & utilities by default:
 
 But it is possible to install the following libraries if your project requires them.
 
-+ OpenCV
-+ RXTX (Library used on [RPLIDAR4J](https://github.com/ev3dev-lang-java/RPLidar4J))
++ [OpenCV](http://docs.opencv.org/2.4/doc/tutorials/introduction/desktop_java/java_dev_intro.html)
++ [RXTX](https://github.com/rxtx/rxtx) (Serial port library used on [RPLIDAR4J](https://github.com/ev3dev-lang-java/RPLidar4J))
 
 **Note** Play with the help in order to discover the different options.
 
