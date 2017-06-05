@@ -31,7 +31,7 @@ function installBatteryMonitor() {
     chmod +x batteryMonitor-service.sh
     update-rc.d batteryMonitor-service.sh defaults
     cd /home/robot/batteryMonitor
-    ./start.sh
+    ./start.sh &
 }
 
 if [ "$PLATFORM" == "$UNKNOWN" ]; then
