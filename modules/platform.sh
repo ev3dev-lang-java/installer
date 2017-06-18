@@ -2,6 +2,7 @@
 
 EV3="EV3"
 BRICKPI="BRICKPI"
+BRICKPI="BRICKPI3"
 PISTORMS="PISTORMS"
 UNKNOWN="UNKNOWN"
 PLATFORM=$UNKNOWN
@@ -27,6 +28,9 @@ if [ -d "/sys/class/power_supply/legoev3-battery" ]; then
 elif [ -d "/sys/class/power_supply/brickpi-battery" ]; then
   echo "The user has a BrickPi+"
   PLATFORM=$BRICKPI
+elif [ -d "/sys/class/power_supply/brickpi3-battery" ]; then
+  echo "The user has a BrickPi3"
+  PLATFORM=$BRICKPI3
 elif [ -d "/sys/class/power_supply/pistorms-battery" ]; then
   echo "The user has a PiStorms"
   PLATFORM=$PISTORMS

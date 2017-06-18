@@ -40,6 +40,10 @@ else
         installJavaForEV3
     elif [ "$PLATFORM" == "$BRICKPI" ]; then
         installJavaForBrickPi
+    elif [ "$PLATFORM" == "$BRICKPI3" ]; then
+        installJavaForBrickPi
+    elif [ "$PLATFORM" == "$PISTORMS" ]; then
+        installJavaForBrickPi
     fi
 
 fi
