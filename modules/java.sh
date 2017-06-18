@@ -19,7 +19,7 @@ function installJavaForBrickPi() {
     echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
     echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update
-    sudo apt-get install oracle-java8-installer
+    sudo apt-get install oracle-java8-installer -y
 
     #Review in the future how to accept licence automatically
     #https://askubuntu.com/questions/190582/installing-java-automatically-with-silent-option
