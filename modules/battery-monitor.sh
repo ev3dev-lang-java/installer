@@ -2,8 +2,9 @@
 
 function installBatteryMonitor() {
     cd /home/robot
-    wget https://github.com/ev3dev-lang-java/batteryMonitor/raw/develop/releases/batteryMonitor-0.2.0-SNAPSHOT.zip
+    wget https://github.com/ev3dev-lang-java/batteryMonitor/raw/release/v0.2.0-RELEASE/releases/batteryMonitor-0.2.0-RELEASE.zip
 
+    #TODO Move block to function
     isInstalled unzip
     if [ "$INSTALLED" == "$INSTALLED_NO" ]; then
         if [ "$PLATFORM" == "$EV3" ]; then
@@ -19,8 +20,9 @@ function installBatteryMonitor() {
 
     fi
 
-    unzip batteryMonitor-0.2.0-SNAPSHOT.zip
-    mv batteryMonitor-0.2.0-SNAPSHOT batteryMonitor
+    #TODO Move to a function
+    unzip batteryMonitor-0.2.0-RELEASE.zip
+    mv batteryMonitor-0.2.0-RELEASE batteryMonitor
     cd batteryMonitor
     chmod +x ./start.sh
     chmod +x ./stop.sh
@@ -29,8 +31,7 @@ function installBatteryMonitor() {
     chmod +x batteryMonitor-service.sh
     update-rc.d batteryMonitor-service.sh defaults
     cd /home/robot/batteryMonitor
-    ./start.sh
-    ps aux | grep java
+    ./start.sh &
 }
 
 if [ "$PLATFORM" == "$UNKNOWN" ]; then

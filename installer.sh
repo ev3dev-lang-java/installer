@@ -6,7 +6,7 @@ echo
 echo "##############################"
 echo "# EV3Dev-lang-java Installer #"
 echo "##############################"
-echo "# Last update: 2017/05/14    #"
+echo "# Last update: 2017/06/05    #"
 echo "##############################"
 echo
 
@@ -32,6 +32,7 @@ function initInstaller(){
 
 MODE_HELP="help"
 MODE_JDK="jdk"
+MODE_BATTERY_MONITOR="batteryMonitor"
 MODE_COPY_INSTALLER="copy-installer"
 MODE_EXTENDED="extended"
 
@@ -43,6 +44,7 @@ if [ "$1" == "$MODE_HELP" ]; then
     runModule help
 fi
 
+#TODO Disable this option if platform is not EV3BRICK
 CREDENTIAL=""
 if [ "$1" == "$MODE_JDK" ]; then
     CREDENTIAL=$2
@@ -56,7 +58,10 @@ fi
 
 runModule platform
 runModule java
-runModule battery-monitor
+
+if [ "$1" == "$MODE_BATTERY_MONITOR" ]; then
+    runModule battery-monitor
+fi
 
 if [ "$1" == "$MODE_EXTENDED" ]; then
     runModule native-libraries
