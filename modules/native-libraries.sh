@@ -13,7 +13,14 @@ else
     fi
     isInstalled librxtx-java
     if [ "$INSTALLED" == "$INSTALLED_NO" ]; then
-        apt-get install librxtx-java
+
+        if [ "$PLATFORM" == "$EV3" ]; then
+            wget http://ftp.us.debian.org/debian/pool/main/r/rxtx/librxtx-java_2.2pre2-13_armel.deb
+            dpkg -i librxtx-java_2.2pre2-13_armel.deb
+        else
+            apt-get install librxtx-java            
+        fi
+        
     fi
 fi
 
