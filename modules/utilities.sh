@@ -2,9 +2,6 @@
 
 #Functions to draw header & footer for modules
 
-CHARACTER="#"
-SPACE=" "
-TOTAL=40
 function createLine() {
     local LINE=$CHARACTER
     for i in $(seq 1 $TOTAL);
@@ -33,15 +30,12 @@ function createHeader() {
 }
 
 # Detect a library
-INSTALLED_YES="YES";
-INSTALLED_NO="NO";
-INSTALLED=$INSTALLED_NO;
-PATTERN_NOT_FOUND="no packages found";
 function isInstalled(){
+    local found
     if dpkg-query -W $1; then
-        INSTALLED=$INSTALLED_YES
+        found="yes"
     else
-        INSTALLED=$INSTALLED_NO
+        found="no"
     fi
-    echo $INSTALLED
+    echo "$found"
 }

@@ -1,13 +1,24 @@
 #!/bin/bash
 
-if [ -e "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" ]; then
-    echo $CREDENTIAL
-    scp "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" "$CREDENTIAL:/home/robot"
-    exit
+local JAVA_PAK
+
+if [ -e "$JRE_ORACLE_PATH" ]; then
+    JAVA_PAK="$JRE_ORACLE_PATH"
+
+elif [ -e "$JRI_OPENJDK_PATH" ]; then
+    JAVA_PAK="$JRI_OPENJDK_PATH"
+
+elif [ -e "$JDK_OPENJDK_PATH" ]; then
+    JAVA_PAK="$JDK_OPENJDK_PATH"
+
 else
-    echo "Sorry, the installer didn´t detect ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz"
+    echo "Sorry, the installer didn't detect any Java archive."
     echo "on /home/robot"
     echo "try to copy the file again to the EV3 Brick."
     echo
     exit 1
 fi
+
+echo "SSHing to: $CREDENTIAL"
+scp "$JAVA_PAK" "$CREDENTIAL:/home/robot"
+exit
