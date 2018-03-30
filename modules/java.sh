@@ -2,7 +2,7 @@
 
 function installJavaForEV3(){
     wget https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.4.5/jri10-ev3.tar.gz
-    tar -zxvf "/home/robot/jri10-ev3.tar.gz" -C /opt
+    tar -zxvf "/home/robot/installer/jri10-ev3.tar.gz" -C /opt
     update-alternatives --install /usr/bin/java java /opt/jri10-ev3/bin/java 1
     java -version
 }
