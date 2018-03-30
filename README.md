@@ -11,7 +11,8 @@ This project tries to save time in this process.
 
 The installer will install the following libraries by default:
 
-+ Java JDK 8 (Only for BrickPi/PiStorms)
++ Java OpenJDK 10 (Java Runtime Image) for EV3 Brick
++ Java JDK 8 (Only for BrickPi/PiStorms) (It is necessary to upgrade to OpenJDK 10)
 
 If you like, you can install a utility to monitor the battery. (Recommended)
 
@@ -38,21 +39,6 @@ sudo apt-get dist-upgrade
 sudo reboot
 ```
 
-### EV3 Brick and Java
-
-If you are using a EV3Brick, you will have to install Java JRE8 Manually.
-Download the file: `ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz` from:
-http://www.oracle.com/technetwork/java/embedded/downloads/javase/javaseemeddedev3-1982511.html
-and copy the file to the following route: `/home/robot/`
-
-**Example:**
-
-```
-scp "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" "robot@192.168.1.85:/home/robot"
-```
-
-Later, the Installer will manage the file in Java module.
-
 ### Running the installer
 
 ```
@@ -64,8 +50,3 @@ chmod +x installer.sh
 sudo ./installer.sh help
 sudo ./installer.sh
 ```
-
-## Advanced
-
-It is nice to configure one brick but maybe you could discover that the installer could move the JDK one manual process to another brick and hte installer it is possible to replicate to another remote brick. Play with the help to discover the way.
-

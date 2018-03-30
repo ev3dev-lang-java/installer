@@ -6,7 +6,7 @@ echo
 echo "##############################"
 echo "# EV3Dev-lang-java Installer #"
 echo "##############################"
-echo "# Last update: 2017/06/18    #"
+echo "# Last update: 2018/03/30    #"
 echo "##############################"
 echo
 
@@ -42,13 +42,6 @@ runModule utilities 0
 
 if [ "$1" == "$MODE_HELP" ]; then
     runModule help
-fi
-
-#TODO Disable this option if platform is not EV3BRICK
-CREDENTIAL=""
-if [ "$1" == "$MODE_JDK" ]; then
-    CREDENTIAL=$2
-    runModule copy-jdk
 fi
 
 if [ "$1" == "$MODE_COPY_INSTALLER" ]; then
