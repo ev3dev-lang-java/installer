@@ -1,10 +1,10 @@
 #!/bin/bash
 
 function installJavaForEV3(){
-    wget https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.4.5/jdk10-ev3.tar.gz
-    tar -zxvf "/home/robot/installer/jdk10-ev3.tar.gz" -C /opt
-    mv /opt/jdk/ /opt/jdk-10-build-46
-    update-alternatives --install /usr/bin/java java /opt/jdk-10-build-46/bin/java 1
+    wget https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.4.5/jdk9-ev3.tar.gz
+    tar -zxvf "/home/robot/installer/jdk9-ev3.tar.gz" -C /opt
+    mv /opt/jdk/ /opt/jdk-9-build-46
+    update-alternatives --install /usr/bin/java java /opt/jdk-9-build-46/bin/java 1
     java -version
 }
 
