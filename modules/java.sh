@@ -1,10 +1,10 @@
 #!/bin/bash
 
 function installJavaForEV3(){
-    wget https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.4.5/jri10-ev3.tar.gz
-    tar -zxvf "/home/robot/installer/jri10-ev3.tar.gz" -C /opt
-    mv /opt/jri-ev3/ /opt/jri-10-build-46
-    update-alternatives --install /usr/bin/java java /opt/jri-10-build-46/bin/java 1
+    wget https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.4.5/jdk10-ev3.tar.gz
+    tar -zxvf "/home/robot/installer/jdk10-ev3.tar.gz" -C /opt
+    mv /opt/jdk/ /opt/jdk-10-build-46
+    update-alternatives --install /usr/bin/java java /opt/jdk-10-build-46/bin/java 1
     java -version
 }
 
@@ -23,12 +23,12 @@ function installJavaForBrickPi() {
 #1. Detect Java
 #1.1 Install Java
 #1.2 Create JAVA_HOME PENDING
-if type -p java; then
-    echo "Found java executable in PATH"
-    java -version
-elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
-    echo "Found java executable in JAVA_HOME"
-else
+#if type -p java; then
+#    echo "Found java executable in PATH"
+#    java -version
+#elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+#    echo "Found java executable in JAVA_HOME"
+#else
     echo "No java detected"
 
     if [ "$PLATFORM" == "$EV3" ]; then
@@ -41,4 +41,4 @@ else
         installJavaForBrickPi
     fi
 
-fi
+#fi
