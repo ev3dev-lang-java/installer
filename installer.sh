@@ -44,13 +44,6 @@ if [ "$1" == "$MODE_HELP" ]; then
     runModule help
 fi
 
-#TODO Disable this option if platform is not EV3BRICK
-CREDENTIAL=""
-if [ "$1" == "$MODE_JDK" ]; then
-    CREDENTIAL=$2
-    runModule copy-jdk
-fi
-
 if [ "$1" == "$MODE_COPY_INSTALLER" ]; then
     CREDENTIAL=$2
     runModule copy-installer
