@@ -7,24 +7,11 @@ PISTORMS="PISTORMS"
 UNKNOWN="UNKNOWN"
 PLATFORM=$UNKNOWN
 
-EV3_EV3DEV="4.4.47-19-ev3dev-ev3"
-
 #1. Detect platform
 #1.1 Detect if the brick is not using latest kernel
-if [ -d "/sys/class/power_supply/legoev3-battery" ]; then
+if [ -d "/sys/class/power_supply/lego-ev3-battery" ]; then
   echo "The user has a EV3 Brick"
   PLATFORM=$EV3
-  ev3dev_version="$(uname -r)"
-  if [ "$ev3dev_version" == "$EV3_EV3DEV" ]; then
-    echo "You have latest ev3dev version: $EV3_EV3DEV"
-  else
-    echo "Please review your ev3dev version to continue";
-    echo
-    echo "sudo apt-get update"
-    echo "sudo apt-get upgrade"
-    echo "sudo apt-get dist-upgrade"
-    echo "sudo reboot"
-  fi
 elif [ -d "/sys/class/power_supply/brickpi-battery" ]; then
   echo "The user has a BrickPi+"
   PLATFORM=$BRICKPI
