@@ -9,18 +9,11 @@ else
     apt-get update
     isInstalled libopencv2.4-java
     if [ "$INSTALLED" == "$INSTALLED_NO" ]; then
-        apt-get install libopencv2.4-java
+        apt-get install --yes --no-install-recommends libopencv2.4-java
     fi
     isInstalled librxtx-java
     if [ "$INSTALLED" == "$INSTALLED_NO" ]; then
-
-        if [ "$PLATFORM" == "$EV3" ]; then
-            wget http://ftp.us.debian.org/debian/pool/main/r/rxtx/librxtx-java_2.2pre2-13_armel.deb
-            dpkg -i librxtx-java_2.2pre2-13_armel.deb
-        else
-            apt-get install librxtx-java            
-        fi
-        
+        apt-get install --yes --no-install-recommends librxtx-java
     fi
 fi
 
