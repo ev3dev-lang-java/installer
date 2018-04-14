@@ -1,13 +1,13 @@
 #!/bin/bash
 
 
-function java_install_bundle(){
+function java_install_bundle() {
     if [ -d "$JAVA_PATH_NEW" ]; then
         echo "Sorry, we detected a previous installation in path: /opt/jri-10-build-050"
         echo
         exit 1
     fi
-    
+
     if [ ! -f "$JAVA_ZIP" ]; then
         echo "Downloading new Java..."
         wget "$JAVA_URL" -O "$JAVA_ZIP"
@@ -20,21 +20,37 @@ function java_install_bundle(){
     tar -xf "$JAVA_ZIP" -C "$JAVA_OPT"
     mv "$JAVA_PATH_ZIP" "$JAVA_PATH_NEW"
     update-alternatives --install /usr/bin/java java "$JAVA_EXE" 1
-    
+
     JAVA_REAL_EXE="$JAVA_EXE"
 }
 
-#TODO Upgrade this function with the support of OpenJDK 10
 function java_install_ppa() {
-    echo "$WEBUPD8_REPO" | sudo tee -a /etc/apt/sources.list
-    apt-key adv --recv-key --keyserver keyserver.ubuntu.com "$WEBUPD8_KEY"
+    ###
+    # Add Debian Buster repo to Stretch
+
+    # prevent distro upgrade
+    cat >/etc/apt/preferences.d/jdk <<EOF
+Package: *
+Pin: release a=stable
+Pin-Priority: 200
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 100
+EOF
+    # workaround for cyclic dependency
+    ln -sf "$JDEB_TMP_LINK" "/usr/bin/java"
+
+    # add repo, update
+    echo "$JDEB_REPO" | sudo tee "/etc/apt/sources.list.d/jdk.list"
     apt-get update
-    apt-get install --yes --no-install-recommends "$WEBUPD8_PKG"
+
+    # install package
+    #  (the symlink above gets discarded, but
+    #   it is needed during the installation)
+    apt-get install --yes --no-install-recommends "$JDEB_PKG"
 
     JAVA_REAL_EXE="$(which java)"
-
-    #Review in the future how to accept licence automatically
-    #https://askubuntu.com/questions/190582/installing-java-automatically-with-silent-option
 }
 
 #1. Detect Java
