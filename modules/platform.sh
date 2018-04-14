@@ -1,31 +1,24 @@
 #!/bin/bash
 
-EV3="EV3"
-BRICKPI="BRICKPI"
-BRICKPI="BRICKPI3"
-PISTORMS="PISTORMS"
-UNKNOWN="UNKNOWN"
-PLATFORM=$UNKNOWN
+PLATFORM="unknown"
 
 #1. Detect platform
-#1.1 Detect if the brick is not using latest kernel
-if [ -d "/sys/class/power_supply/lego-ev3-battery" ]; then
-  echo "The user has a EV3 Brick"
-  PLATFORM=$EV3
-elif [ -d "/sys/class/power_supply/brickpi-battery" ]; then
-  echo "The user has a BrickPi+"
-  PLATFORM=$BRICKPI
-elif [ -d "/sys/class/power_supply/brickpi3-battery" ]; then
-  echo "The user has a BrickPi3"
-  PLATFORM=$BRICKPI3
-elif [ -d "/sys/class/power_supply/pistorms-battery" ]; then
-  echo "The user has a PiStorms"
-  PLATFORM=$PISTORMS
+if [ -d "$BATT_EV3" ]; then
+    PLATFORM="ev3"
+
+elif [ -d "$BATT_BRICKPI" ]; then
+    PLATFORM="brickpi"
+
+elif [ -d "$BATT_BRICKPI3" ]; then
+    PLATFORM="brickpi3"
+
+elif [ -d "$BATT_PISTORMS" ]; then
+    PLATFORM="pistorms"
 fi
 echo "Platform detected: $PLATFORM"
 echo
 
-if [ "$PLATFORM" == "$UNKNOWN" ]; then
+if [ "$PLATFORM" == "unknown" ]; then
     echo "Sorry, this platform is not recognized by the installer."
     echo "This installer was designed for EV3Dev hardware."
     echo
