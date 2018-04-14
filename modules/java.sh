@@ -18,8 +18,8 @@ function installJavaForBrickPi() {
     apt-key adv --recv-key --keyserver keyserver.ubuntu.com EEA14886
     echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
     echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
-    sudo apt-get update
-    sudo apt-get install --yes --no-install-recommends oracle-java8-installer
+    apt-get update
+    apt-get install --yes --no-install-recommends oracle-java8-installer
     java -Xshare:dump
 
     #Review in the future how to accept licence automatically
