@@ -29,7 +29,7 @@ function java_install_ppa() {
     echo "$WEBUPD8_REPO" | sudo tee -a /etc/apt/sources.list
     apt-key adv --recv-key --keyserver keyserver.ubuntu.com "$WEBUPD8_KEY"
     apt-get update
-    apt-get install --yes --no-install-recommends oracle-java8-installer
+    apt-get install --yes --no-install-recommends "$WEBUPD8_PKG"
 
     JAVA_REAL_EXE="$(which java)"
 
