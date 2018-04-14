@@ -7,6 +7,7 @@ function installJavaForEV3() {
         mv /opt/jri-ev3/ /opt/jri-10-build-050
         update-alternatives --install /usr/bin/java java /opt/jri-10-build-050/bin/java 10
         java -version
+        java -Xshare:dump
     else
         echo "Sorry, we detected a previous installation in path: /opt/jri-10-build-050"
     fi
@@ -19,6 +20,7 @@ function installJavaForBrickPi() {
     echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update
     sudo apt-get install --yes --no-install-recommends oracle-java8-installer
+    java -Xshare:dump
 
     #Review in the future how to accept licence automatically
     #https://askubuntu.com/questions/190582/installing-java-automatically-with-silent-option
