@@ -1,11 +1,15 @@
 #!/bin/bash
 
-function installJavaForEV3(){
-    wget https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.4.5/jdk9-ev3.tar.gz
-    tar -zxvf "/home/robot/installer/jdk9-ev3.tar.gz" -C /opt
-    mv /opt/jdk/ /opt/jdk-9-build-46
-    update-alternatives --install /usr/bin/java java /opt/jdk-9-build-46/bin/java 1
-    java -version
+function installJavaForEV3() {
+    if [ ! -d /opt/jri-10-build-050 ]; then
+        wget https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.5.0/jri10-ev3.tar.gz
+        tar -zxvf "/home/robot/installer/jri10-ev3.tar.gz" -C /opt
+        mv /opt/jri-ev3/ /opt/jri-10-build-050
+        update-alternatives --install /usr/bin/java java /opt/jri-10-build-050/bin/java 10
+        java -version
+    else
+        echo "Sorry, we detected a previous installation in path: /opt/jri-10-build-050"
+    fi
 }
 
 #TODO Upgrade this function with the support of OpenJDK 10
@@ -23,12 +27,12 @@ function installJavaForBrickPi() {
 #1. Detect Java
 #1.1 Install Java
 #1.2 Create JAVA_HOME PENDING
-#if type -p java; then
-#    echo "Found java executable in PATH"
-#    java -version
-#elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
-#    echo "Found java executable in JAVA_HOME"
-#else
+if type -p java; then
+    echo "Found java executable in PATH"
+    java -version
+elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+    echo "Found java executable in JAVA_HOME"
+else
     echo "No java detected"
 
     if [ "$PLATFORM" == "$EV3" ]; then
@@ -40,5 +44,4 @@ function installJavaForBrickPi() {
     elif [ "$PLATFORM" == "$PISTORMS" ]; then
         installJavaForBrickPi
     fi
-
-#fi
+fi
