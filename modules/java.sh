@@ -16,16 +16,12 @@ function java_install_bundle(){
     fi
 
     # extract it, rename it and point the symlink to it
-    echo "Java package detected, installing..."
+    echo "Java package acquired, installing..."
     tar -xf "$JAVA_ZIP" -C "$JAVA_OPT"
     mv "$JAVA_PATH_ZIP" "$JAVA_PATH_NEW"
     update-alternatives --install /usr/bin/java java "$JAVA_EXE" 1
     
-    echo "Extraction complete. Java version:"
-    java -version
-    
-    echo "Dumping class cache..."
-    java -Xshare:dump
+    JAVA_REAL_EXE="$JAVA_PATH_NEW"
 }
 
 #TODO Upgrade this function with the support of OpenJDK 10
@@ -34,7 +30,8 @@ function java_install_ppa() {
     apt-key adv --recv-key --keyserver keyserver.ubuntu.com "$WEBUPD8_KEY"
     apt-get update
     apt-get install --yes --no-install-recommends oracle-java8-installer
-    java -Xshare:dump
+
+    JAVA_REAL_EXE="$(which java)"
 
     #Review in the future how to accept licence automatically
     #https://askubuntu.com/questions/190582/installing-java-automatically-with-silent-option
@@ -43,12 +40,15 @@ function java_install_ppa() {
 #1. Detect Java
 #1.1 Install Java
 #1.2 Create JAVA_HOME PENDING
+
 if type -p java; then
     echo "Found java executable in PATH"
-    java -version
+    JAVA_REAL_EXE="$(which java)"
+
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
     echo "Found java executable in JAVA_HOME"
-    "$JAVA_HOME/bin/java" -version
+    JAVA_REAL_EXE="$JAVA_HOME/bin/java"
+
 else
     echo "No java detected"
 
@@ -60,3 +60,9 @@ else
         java_install_ppa
     fi
 fi
+
+echo "Installation complete. Java version:"
+"$JAVA_REAL_EXE" -version
+
+echo "Dumping class cache..."
+"$JAVA_REAL_EXE" -Xshare:dump
