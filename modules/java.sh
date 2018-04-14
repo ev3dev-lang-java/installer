@@ -21,7 +21,7 @@ function java_install_bundle(){
     mv "$JAVA_PATH_ZIP" "$JAVA_PATH_NEW"
     update-alternatives --install /usr/bin/java java "$JAVA_EXE" 1
     
-    JAVA_REAL_EXE="$JAVA_PATH_NEW"
+    JAVA_REAL_EXE="$JAVA_EXE"
 }
 
 #TODO Upgrade this function with the support of OpenJDK 10
