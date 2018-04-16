@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ -e "/home/robot/installer/installer.sh" ]; then
-    echo $CREDENTIAL
-    ssh $CREDENTIAL 'uptime'
-    ssh $CREDENTIAL 'sudo mkdir /home/robot/installer/'
-    scp "/home/robot/installer/installer.sh" "$CREDENTIAL:/home/robot/installer"
-    ssh $CREDENTIAL 'sudo chmod +x /home/robot/installer.sh'
+if [ -e "$INSTALLER_EXE" ]; then
+    chmod +x "$INSTALLER_EXE"
+
+    echo "SSHing to: $CREDENTIAL"
+    ssh "$CREDENTIAL" "uptime; sudo mkdir -p $INSTALLER_DIR"
+    scp "$INSTALLER_EXE" "$CREDENTIAL:$INSTALLER_DIR"
     exit
 else
     echo "Sorry, the installer didn´t detect the installer"

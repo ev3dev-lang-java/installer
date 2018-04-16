@@ -1,63 +1,73 @@
 #!/bin/bash
 # A Bash script to install Linux Libraries used on EV3Dev-lang-java.
 # Author: Juan Antonio Breña Moral, bren@juanantonio.info
+# Author: Jakub Vaněk, linuxtardis@gmail.com
+
+MODULE="unknown"
+MODULE_FOLDER="module2"
+ROOT_URL="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
+
+# $1 => module name
+function download_module() {
+    pushd "./$MODULE_FOLDER" >/dev/null
+    wget -qN "$ROOT_URL/$1.sh"
+    popd  >/dev/null
+}
+
+# $1 => module name
+function run_module() {
+    MODULE="$1"
+    createHeader "$1"
+    download_module "$1"
+    source "$MODULE_FOLDER/$1.sh"
+}
+
+# $1 => module name
+function inc_module() {
+    download_module "$1"
+    source "$MODULE_FOLDER/$1.sh"
+}
+
+function init_installer() {
+    echo "Init installer"
+    rm -rf "$MODULE_FOLDER"
+    mkdir -p "$MODULE_FOLDER"
+}
 
 echo
 echo "##############################"
 echo "# EV3Dev-lang-java Installer #"
 echo "##############################"
-echo "# Last update: 2018/03/30    #"
+echo "# Last update: 2018/04/14    #"
 echo "##############################"
 echo
 
-OFF=0
-MODULE="EMPTY"
-MODULE_FOLDER="module2"
-function runModule(){
-    if ! [ "$2" == "$OFF" ]; then
-        createHeader $1
-    fi
-    local domain="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
-    wget -N "$domain/$1.sh"
-    MODULE=$1
-    mv ./$1.sh ./$MODULE_FOLDER/$1.sh
-    source "$MODULE_FOLDER/$1.sh"
-}
-
-function initInstaller(){
-    echo "Init installer"
-    mkdir -p $MODULE_FOLDER
-    rm ./$MODULE_FOLDER/*
-}
-
-MODE_HELP="help"
-MODE_JDK="jdk"
-MODE_BATTERY_MONITOR="batteryMonitor"
-MODE_COPY_INSTALLER="copy-installer"
-MODE_EXTENDED="extended"
 
 #Init
-initInstaller
-runModule utilities 0
+init_installer
+inc_module vars
+inc_module utilities
 
-if [ "$1" == "$MODE_HELP" ]; then
-    runModule help
-fi
+run_module platform
 
-if [ "$1" == "$MODE_COPY_INSTALLER" ]; then
-    CREDENTIAL=$2
-    runModule copy-installer
-fi
 
-runModule platform
-runModule java
+if [ "$1" == "help" ]; then
+    run_module help
 
-if [ "$1" == "$MODE_BATTERY_MONITOR" ]; then
-    runModule battery-monitor
-fi
+elif [ "$1" == "copy-installer" ]; then
+    CREDENTIAL="$2"
+    run_module copy-installer
 
-if [ "$1" == "$MODE_EXTENDED" ]; then
-    runModule native-libraries
+elif [ "$1" == "batteryMonitor" ]; then
+    run_module java
+    run_module battery-monitor
+
+elif [ "$1" == "extended" ]; then
+    run_module java
+    run_module native-libraries
+
+else
+    run_module java
 fi
 
 exit 0
