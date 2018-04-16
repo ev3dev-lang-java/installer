@@ -19,7 +19,7 @@ function java_install_bundle() {
     echo "Java package acquired, installing..."
     tar -xf "$JAVA_ZIP" -C "$JAVA_OPT"
     mv "$JAVA_PATH_ZIP" "$JAVA_PATH_NEW"
-    update-alternatives --install /usr/bin/java java "$JAVA_EXE" 1
+    update-alternatives --install /usr/bin/java java "$JAVA_EXE" 10
 
     JAVA_REAL_EXE="$JAVA_EXE"
 }
