@@ -10,9 +10,9 @@ JAVA_EXE="$JAVA_PATH_NEW/bin/java"
 
 
 # brickpi java repository
-WEBUPD8_KEY="C2518248EEA14886"
-WEBUPD8_REPO="deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main"
-WEBUPD8_PKG="oracle-java8-installer"
+JDEB_REPO="deb http://ftp.debian.org/debian buster main contrib non-free"
+JDEB_PKG="openjdk-10-jre-headless"
+JDEB_TMP_LINK="/usr/lib/jvm/java-10-openjdk-armhf/bin/java"
 
 # graphics
 CHARACTER="#"
