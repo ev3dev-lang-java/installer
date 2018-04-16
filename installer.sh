@@ -4,7 +4,7 @@
 # Author: Jakub Vaněk, linuxtardis@gmail.com
 
 MODULE="unknown"
-MODULE_FOLDER="module2"
+MODULE_FOLDER="module"
 ROOT_URL="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
 
 # $1 => module name
