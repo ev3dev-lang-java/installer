@@ -4,7 +4,7 @@
 # Author: Jakub Vaněk, linuxtardis@gmail.com
 
 MODULE="unknown"
-MODULE_FOLDER="module"
+MODULE_FOLDER="/home/robot/installer/module"
 ROOT_URL="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
 
 # $1 => module name
