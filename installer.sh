@@ -10,7 +10,7 @@ ROOT_URL="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/m
 # $1 => module name
 function download_module() {
     pushd "$MODULE_FOLDER" >/dev/null
-    wget -qN "$ROOT_URL/$1.sh"
+    wget -qN "$ROOT_URL/$1.sh -P /home/robot/installer/module"
     popd  >/dev/null
 }
 
