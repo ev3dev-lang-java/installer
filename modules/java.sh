@@ -61,6 +61,12 @@ if type -p java; then
     echo "Found java executable in PATH"
     JAVA_REAL_EXE="$(which java)"
 
+    echo $JAVA_OPT/jri-10-build-050
+    if [ ! -d "$JAVA_OPT/jri-10-build-050" ]; then
+        echo "But upgrading Java version"
+        echo
+    fi
+
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
     echo "Found java executable in JAVA_HOME"
     JAVA_REAL_EXE="$JAVA_HOME/bin/java"
