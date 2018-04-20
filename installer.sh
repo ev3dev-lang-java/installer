@@ -30,7 +30,7 @@ function inc_module() {
 
 function init_installer() {
     echo "Init installer"
-    rm -rf "$MODULE_FOLDER"
+    #rm -rf "$MODULE_FOLDER"
     mkdir -p "$MODULE_FOLDER"
 }
 
@@ -44,7 +44,7 @@ echo
 
 
 #Init
-#init_installer
+init_installer
 inc_module vars
 inc_module utilities
 
