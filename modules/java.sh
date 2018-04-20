@@ -87,4 +87,4 @@ echo "Installation complete. Java version:"
 "$JAVA_REAL_EXE" -version
 
 echo "Dumping class cache..."
-"$JAVA_REAL_EXE" -Xshare:dump
+#"$JAVA_REAL_EXE" -Xshare:dump
