@@ -44,7 +44,7 @@ echo
 
 
 #Init
-init_installer
+#init_installer
 inc_module vars
 inc_module utilities
 
@@ -66,7 +66,7 @@ elif [ "$1" == "extended" ]; then
     run_module java
     run_module native-libraries
 
-else
+elif [ "$1" == "java" ]; then
     run_module java
 fi
 
