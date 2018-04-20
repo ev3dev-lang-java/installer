@@ -72,6 +72,9 @@ if type -p java; then
              [ "$PLATFORM" == "pistorms" ]; then
             java_install_ppa
         fi
+    else
+      echo "Latest Java installed."
+      echo $JAVA_OPT/jri-10-build-050
     fi
 
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
