@@ -61,10 +61,17 @@ if type -p java; then
     echo "Found java executable in PATH"
     JAVA_REAL_EXE="$(which java)"
 
-    echo $JAVA_OPT/jri-10-build-050
     if [ ! -d "$JAVA_OPT/jri-10-build-050" ]; then
-        echo "But upgrading Java version"
+        echo "But we will upgrade the Java version"
+        echo $JAVA_OPT/jri-10-build-050
         echo
+        if [ "$PLATFORM" == "ev3" ]; then
+            java_install_bundle
+        elif [ "$PLATFORM" == "brickpi"  ] ||
+             [ "$PLATFORM" == "brickpi3" ] ||
+             [ "$PLATFORM" == "pistorms" ]; then
+            java_install_ppa
+        fi
     fi
 
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
