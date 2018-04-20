@@ -65,8 +65,8 @@ elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
     echo "Found java executable in JAVA_HOME"
     JAVA_REAL_EXE="$JAVA_HOME/bin/java"
 
-    echo $JAVA_PATH_NEW
-    if [ ! -d "$JAVA_PATH_NEW" ]; then
+    echo $JAVA_OPT/jri-10-build-050
+    if [ ! -d "$JAVA_OPT/jri-10-build-050" ]; then
         echo "But upgrading Java version"
         echo
     fi
