@@ -106,6 +106,8 @@ function java_install() {
 #############################
 # Perform maintenance tasks
 function java_postinstall() {
+    update-alternatives --set "/usr/bin/java" "$JAVA_REAL_EXE"
+
     echo "Output of 'java -version':"
     "$JAVA_REAL_EXE" -version
 
