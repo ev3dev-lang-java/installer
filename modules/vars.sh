@@ -7,6 +7,7 @@ JRI_ZIP="/home/robot/installer/jri10-ev3.tar.gz"
 JRI_PATH_ZIP="$JRI_OPT/jri-ev3/"
 JRI_PATH_NEW="$JRI_OPT/jri-10-build-050"
 JRI_EXE="$JRI_PATH_NEW/bin/java"
+JRI_PRIORITY="10"
 
 # brickpi java repository
 JDEB_REPO="deb http://ftp.debian.org/debian buster main contrib non-free"

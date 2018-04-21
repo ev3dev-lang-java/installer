@@ -19,7 +19,7 @@ function java_install_bundle() {
     echo "Java package acquired, installing..."
     tar -xf "$JRI_ZIP" -C "$JRI_OPT"
     mv "$JRI_PATH_ZIP" "$JRI_PATH_NEW"
-    update-alternatives --install /usr/bin/java java "$JRI_EXE" 10
+    update-alternatives --install /usr/bin/java java "$JRI_EXE" "$JRI_PRIORITY"
 
     JAVA_REAL_EXE="$JRI_EXE"
 }
