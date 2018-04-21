@@ -2,26 +2,26 @@
 
 
 function java_install_bundle() {
-    if [ -d "$JAVA_PATH_NEW" ]; then
+    if [ -d "$JRI_PATH_NEW" ]; then
         echo "Sorry, we detected a previous installation in path: /opt/jri-10-build-050"
         echo
         exit 1
     fi
 
-    if [ ! -f "$JAVA_ZIP" ]; then
+    if [ ! -f "$JRI_ZIP" ]; then
         echo "Downloading new Java..."
-        wget "$JAVA_URL" -O "$JAVA_ZIP"
+        wget "$JRI_URL" -O "$JRI_ZIP"
     else
         echo "Java archive found, using cached."
     fi
 
     # extract it, rename it and point the symlink to it
     echo "Java package acquired, installing..."
-    tar -xf "$JAVA_ZIP" -C "$JAVA_OPT"
-    mv "$JAVA_PATH_ZIP" "$JAVA_PATH_NEW"
-    update-alternatives --install /usr/bin/java java "$JAVA_EXE" 10
+    tar -xf "$JRI_ZIP" -C "$JRI_OPT"
+    mv "$JRI_PATH_ZIP" "$JRI_PATH_NEW"
+    update-alternatives --install /usr/bin/java java "$JRI_EXE" 10
 
-    JAVA_REAL_EXE="$JAVA_EXE"
+    JAVA_REAL_EXE="$JRI_EXE"
 }
 
 function java_install_ppa() {
@@ -61,9 +61,9 @@ if type -p java; then
     echo "Found java executable in PATH"
     JAVA_REAL_EXE="$(which java)"
 
-    if [ ! -d "$JAVA_OPT/jri-10-build-050" ]; then
+    if [ ! -d "$JRI_OPT/jri-10-build-050" ]; then
         echo "But we will upgrade the Java version"
-        echo $JAVA_OPT/jri-10-build-050
+        echo $JRI_OPT/jri-10-build-050
         echo
         if [ "$PLATFORM" == "ev3" ]; then
             java_install_bundle
@@ -74,15 +74,15 @@ if type -p java; then
         fi
     else
       echo "Latest Java installed."
-      echo $JAVA_OPT/jri-10-build-050
+      echo $JRI_OPT/jri-10-build-050
     fi
 
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
     echo "Found java executable in JAVA_HOME"
     JAVA_REAL_EXE="$JAVA_HOME/bin/java"
 
-    echo $JAVA_OPT/jri-10-build-050
-    if [ ! -d "$JAVA_OPT/jri-10-build-050" ]; then
+    echo $JRI_OPT/jri-10-build-050
+    if [ ! -d "$JRI_OPT/jri-10-build-050" ]; then
         echo "But upgrading Java version"
         echo
     fi

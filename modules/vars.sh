@@ -1,13 +1,12 @@
 #!/bin/bash
 
 # java archive paths
-JAVA_OPT="/opt"
-JAVA_URL="https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.5.0/jri10-ev3.tar.gz"
-JAVA_ZIP="/home/robot/installer/jri10-ev3.tar.gz"
-JAVA_PATH_ZIP="$JAVA_OPT/jri-ev3/"
-JAVA_PATH_NEW="$JAVA_OPT/jri-10-build-050"
-JAVA_EXE="$JAVA_PATH_NEW/bin/java"
-
+JRI_OPT="/opt"
+JRI_URL="https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.5.0/jri10-ev3.tar.gz"
+JRI_ZIP="/home/robot/installer/jri10-ev3.tar.gz"
+JRI_PATH_ZIP="$JRI_OPT/jri-ev3/"
+JRI_PATH_NEW="$JRI_OPT/jri-10-build-050"
+JRI_EXE="$JRI_PATH_NEW/bin/java"
 
 # brickpi java repository
 JDEB_REPO="deb http://ftp.debian.org/debian buster main contrib non-free"
@@ -23,7 +22,6 @@ TOTAL=40
 BT_BRICKPI_PKG="libbluetooth-dev"
 
 # platform detection
-EV3DEV_TESTED="4.4.47-19-ev3dev-ev3"
 BATT_EV3="/sys/class/power_supply/lego-ev3-battery"
 BATT_BRICKPI="/sys/class/power_supply/brickpi-battery"
 BATT_BRICKPI3="/sys/class/power_supply/brickpi3-battery"
