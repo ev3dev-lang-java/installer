@@ -1,6 +1,7 @@
 #!/bin/bash
 
-
+#####################################
+# Install the latest EV3 JRI bundle
 function java_install_bundle() {
     if [ -d "$JRI_PATH_NEW" ]; then
         echo "Sorry, we detected a previous installation in path: /opt/jri-10-build-050"
@@ -24,6 +25,9 @@ function java_install_bundle() {
     JAVA_REAL_EXE="$JRI_EXE"
 }
 
+
+########################################
+# Install the latest Debian armhf java
 function java_install_ppa() {
     ###
     # Add Debian Buster repo to Stretch
@@ -53,43 +57,9 @@ EOF
     JAVA_REAL_EXE="$(which java)"
 }
 
-#1. Detect Java
-#1.1 Install Java
-#1.2 Create JAVA_HOME PENDING
-
-if type -p java; then
-    echo "Found java executable in PATH"
-    JAVA_REAL_EXE="$(which java)"
-
-    if [ ! -d "$JRI_OPT/jri-10-build-050" ]; then
-        echo "But we will upgrade the Java version"
-        echo $JRI_OPT/jri-10-build-050
-        echo
-        if [ "$PLATFORM" == "ev3" ]; then
-            java_install_bundle
-        elif [ "$PLATFORM" == "brickpi"  ] ||
-             [ "$PLATFORM" == "brickpi3" ] ||
-             [ "$PLATFORM" == "pistorms" ]; then
-            java_install_ppa
-        fi
-    else
-      echo "Latest Java installed."
-      echo $JRI_OPT/jri-10-build-050
-    fi
-
-elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
-    echo "Found java executable in JAVA_HOME"
-    JAVA_REAL_EXE="$JAVA_HOME/bin/java"
-
-    echo $JRI_OPT/jri-10-build-050
-    if [ ! -d "$JRI_OPT/jri-10-build-050" ]; then
-        echo "But upgrading Java version"
-        echo
-    fi
-
-else
-    echo "No java detected"
-
+###########################################
+# Install Java by a platform specific way
+function java_just_install() {
     if [ "$PLATFORM" == "ev3" ]; then
         java_install_bundle
     elif [ "$PLATFORM" == "brickpi"  ] ||
@@ -97,10 +67,54 @@ else
          [ "$PLATFORM" == "pistorms" ]; then
         java_install_ppa
     fi
-fi
+}
 
-echo "Installation complete. Java version:"
-"$JAVA_REAL_EXE" -version
+#####################################
+# Locate existing Java installation
+function java_find() {
+    if type -p java; then
+        echo "Found java executable in PATH"
+        JAVA_REAL_EXE="$(which java)"
 
-echo "Dumping class cache..."
-"$JAVA_REAL_EXE" -Xshare:dump
+    elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+        echo "Found java executable in JAVA_HOME"
+        JAVA_REAL_EXE="$JAVA_HOME/bin/java"
+
+    else
+        echo "No java detected"
+        JAVA_REAL_EXE="/bin/true"
+    fi
+}
+
+############################################################
+# Check if the right Java is installed, if not, install it
+function java_install() {
+    JAVA_VERSION_RAW="$("$JAVA_REAL_EXE" -version 2>&1)"
+    JAVA_VERSION="$(echo "$JAVA_VERSION_RAW" | awk -F '"' '/version/ {print $2}')"
+    JAVA_VERSION_LATEST="${JAVA_LATEST[$PLATFORM]}"
+
+    echo "Installed Java version: '${JAVA_VERSION}'"
+
+    if [ "$JAVA_VERSION" != "$JAVA_VERSION_LATEST" ]; then
+        echo "Installing latest Java version ($JAVA_VERSION_LATEST)..."
+        java_just_install
+    else
+        echo "Latest major Java version is installed."
+    fi
+}
+
+#############################
+# Perform maintenance tasks
+function java_postinstall() {
+    update-alternatives --set "/usr/bin/java" "$JAVA_REAL_EXE"
+
+    echo "Output of 'java -version':"
+    "$JAVA_REAL_EXE" -version
+
+    echo "Dumping class cache..."
+    "$JAVA_REAL_EXE" -Xshare:dump
+}
+
+java_find
+java_install
+java_postinstall

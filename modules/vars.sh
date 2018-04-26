@@ -14,6 +14,12 @@ JDEB_REPO="deb http://ftp.debian.org/debian buster main contrib non-free"
 JDEB_PKG="openjdk-10-jre-headless"
 JDEB_TMP_LINK="/usr/lib/jvm/java-10-openjdk-armhf/bin/java"
 
+declare -A JAVA_LATEST
+JAVA_LATEST[ev3]="10"
+JAVA_LATEST[brickpi]="10"
+JAVA_LATEST[brickpi3]="10"
+JAVA_LATEST[pistorms]="10"
+
 # graphics
 CHARACTER="#"
 SPACE=" "
