@@ -2,23 +2,23 @@
 
 # java archive paths
 JRI_OPT="/opt"
-JRI_URL="https://github.com/ev3dev-lang-java/openjdk-ev3/releases/download/v0.5.0/jri10-ev3.tar.gz"
-JRI_ZIP="/home/robot/installer/jri10-ev3.tar.gz"
-JRI_PATH_ZIP="$JRI_OPT/jri-ev3/"
-JRI_PATH_NEW="$JRI_OPT/jri-10-build-050"
+JRI_URL="https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_build_ev3_linux/40/artifact/build/jri-ev3.tar.gz"
+JRI_ZIP="/home/robot/installer/jri-ev3.tar.gz"
+JRI_PATH_ZIP="$JRI_OPT/jri"
+JRI_PATH_NEW="$JRI_OPT/jri-11"
 JRI_EXE="$JRI_PATH_NEW/bin/java"
-JRI_PRIORITY="10"
+JRI_PRIORITY="11"
 
 # brickpi java repository
 JDEB_REPO="deb http://ftp.debian.org/debian buster main contrib non-free"
-JDEB_PKG="openjdk-10-jre-headless"
-JDEB_TMP_LINK="/usr/lib/jvm/java-10-openjdk-armhf/bin/java"
+JDEB_PKG="openjdk-11-jre-headless"
+JDEB_TMP_LINK="/usr/lib/jvm/java-11-openjdk-armhf/bin/java"
 
 declare -A JAVA_LATEST
-JAVA_LATEST[ev3]="10"
-JAVA_LATEST[brickpi]="10"
-JAVA_LATEST[brickpi3]="10"
-JAVA_LATEST[pistorms]="10"
+JAVA_LATEST[ev3]="11"
+JAVA_LATEST[brickpi]="11"
+JAVA_LATEST[brickpi3]="11"
+JAVA_LATEST[pistorms]="11"
 
 # graphics
 CHARACTER="#"
