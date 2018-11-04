@@ -4,9 +4,10 @@
 # Install the latest EV3 JRI bundle
 function java_install_bundle() {
     if [ -d "$JRI_PATH_NEW" ]; then
-        echo "Sorry, we detected a previous installation in path: /opt/jri-10-build-050"
+        echo "Detected a previous installation in path: $JRI_PATH_NEW"
+        echo "Deleting and reinstalling."
         echo
-        exit 1
+        rm -rf "$JRI_PATH_NEW"
     fi
 
     if [ ! -f "$JRI_ZIP" ]; then
