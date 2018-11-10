@@ -29,7 +29,8 @@ TOTAL=40
 BT_BRICKPI_PKG="libbluetooth-dev"
 
 # platform detection
-BATT_EV3="/sys/class/power_supply/lego-ev3-battery"
+BATT_EV3_STRETCH="/sys/class/power_supply/lego-ev3-battery"
+BATT_EV3_JESSIE="/sys/class/power_supply/legoev3-battery"
 BATT_BRICKPI="/sys/class/power_supply/brickpi-battery"
 BATT_BRICKPI3="/sys/class/power_supply/brickpi3-battery"
 BATT_PISTORMS="/sys/class/power_supply/pistorms-battery"
