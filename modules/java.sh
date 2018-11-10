@@ -1,50 +1,113 @@
 #!/bin/bash
 
-function installJavaForEV3(){
-    if [ -e "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" ]; then
-        tar -zxvf "/home/robot/ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz" -C /opt
-        update-alternatives --install /usr/bin/java java /opt/ejdk1.8.0/linux_arm_sflt/jre/bin/java 1
-        java -version
-    else
-        echo "Sorry, the installer didn´t detect ejdk-8-fcs-b132-linux-arm-sflt-03_mar_2014.tar.gz"
-        echo "on /home/robot"
-        echo "try to copy the file again to the EV3 Brick."
+#####################################
+# Install the latest EV3 JRI bundle
+function java_install_bundle() {
+    if [ -d "$JRI_PATH_NEW" ]; then
+        echo "Detected a previous installation in path: $JRI_PATH_NEW"
+        echo "Deleting and reinstalling."
         echo
-        exit 1
+        rm -rf "$JRI_PATH_NEW"
+    fi
+
+    pushd "$(dirname $JRI_ZIP)" >/dev/null
+    echo "Downloading Java..."
+    wget -N "$JRI_URL"
+    popd >/dev/null
+
+    # extract it, rename it and point the symlink to it
+    echo "Java package acquired, installing..."
+    tar -xf "$JRI_ZIP" -C "$JRI_OPT"
+    mv "$JRI_PATH_ZIP" "$JRI_PATH_NEW"
+    update-alternatives --install "/usr/bin/java" "java" "$JRI_EXE" "$JRI_PRIORITY"
+
+    JAVA_REAL_EXE="$JRI_EXE"
+}
+
+
+########################################
+# Install the latest Debian armhf java
+function java_install_ppa() {
+    ###
+    # Add Debian Buster repo to Stretch
+
+    # prevent distro upgrade
+    cat >/etc/apt/preferences.d/jdk <<EOF
+Package: *
+Pin: release a=stable
+Pin-Priority: 200
+
+Package: *
+Pin: release a=testing
+Pin-Priority: 100
+EOF
+    # workaround for cyclic dependency
+    ln -sf "$JDEB_TMP_LINK" "/usr/bin/java"
+
+    # add repo, update
+    echo "$JDEB_REPO" | sudo tee "/etc/apt/sources.list.d/jdk.list"
+    apt-get update
+
+    # install package
+    #  (the symlink above gets discarded, but
+    #   it is needed during the installation)
+    apt-get install --yes --no-install-recommends "$JDEB_PKG"
+
+    JAVA_REAL_EXE="$(which java)"
+}
+
+###########################################
+# Install Java by a platform specific way
+function java_just_install() {
+    if [ "$PLATFORM" == "ev3" ]; then
+        java_install_bundle
+    elif [ "$PLATFORM" == "brickpi"  ] ||
+         [ "$PLATFORM" == "brickpi3" ] ||
+         [ "$PLATFORM" == "pistorms" ]; then
+        java_install_ppa
     fi
 }
 
-function installJavaForBrickPi() {
-    apt-key adv --recv-key --keyserver keyserver.ubuntu.com EEA14886
-    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
-    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
-    sudo apt-get update
-    sudo apt-get install oracle-java8-installer
+#####################################
+# Locate existing Java installation
+function java_find() {
+    if type -p java; then
+        echo "Found java executable in PATH"
+        JAVA_REAL_EXE="$(which java)"
 
-    #Review in the future how to accept licence automatically
-    #https://askubuntu.com/questions/190582/installing-java-automatically-with-silent-option
+    elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+        echo "Found java executable in JAVA_HOME"
+        JAVA_REAL_EXE="$JAVA_HOME/bin/java"
+
+    else
+        echo "No java detected"
+        JAVA_REAL_EXE="/bin/true"
+    fi
 }
 
-#1. Detect Java
-#1.1 Install Java
-#1.2 Create JAVA_HOME PENDING
-if type -p java; then
-    echo "Found java executable in PATH"
-    java -version
-elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
-    echo "Found java executable in JAVA_HOME"
-else
-    echo "No java detected"
+############################################################
+# Check if the right Java is installed, if not, install it
+function java_install() {
+    JAVA_VERSION_RAW="$("$JAVA_REAL_EXE" -version 2>&1)"
+    JAVA_VERSION="$(echo "$JAVA_VERSION_RAW" | awk -F '"' '/version/ {print $2}')"
+    JAVA_VERSION_LATEST="${JAVA_LATEST[$PLATFORM]}"
 
-    if [ "$PLATFORM" == "$EV3" ]; then
-        installJavaForEV3
-    elif [ "$PLATFORM" == "$BRICKPI" ]; then
-        installJavaForBrickPi
-    elif [ "$PLATFORM" == "$BRICKPI3" ]; then
-        installJavaForBrickPi
-    elif [ "$PLATFORM" == "$PISTORMS" ]; then
-        installJavaForBrickPi
-    fi
+    echo "Installed Java version: '${JAVA_VERSION}', latest '${JAVA_VERSION_LATEST}', installing anyway."
+    java_just_install
+}
 
-fi
+#############################
+# Perform maintenance tasks
+function java_postinstall() {
+    update-alternatives --set "java" "$JAVA_REAL_EXE"
 
+    echo "Output of 'java -version':"
+    "$JAVA_REAL_EXE" -version
+
+    echo "Dumping class cache..."
+    "$JAVA_REAL_EXE" -Xshare:dump
+}
+
+java_find
+java_install
+java_postinstall
