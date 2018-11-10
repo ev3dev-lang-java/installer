@@ -58,10 +58,6 @@ elif [ "$1" == "copy-installer" ]; then
     CREDENTIAL="$2"
     run_module copy-installer
 
-elif [ "$1" == "batteryMonitor" ]; then
-    run_module java
-    run_module battery-monitor
-
 elif [ "$1" == "extended" ]; then
     run_module java
     run_module native-libraries

@@ -14,11 +14,7 @@ The installer will install the following libraries by default:
 + Java OpenJDK 10 (Java Runtime Image) for EV3 Brick
 + Java JDK 8 (Only for BrickPi/PiStorms) (It is necessary to upgrade to OpenJDK 10)
 
-If you like, you can install a utility to monitor the battery. (Recommended)
-
-+ [BatteryMonitor](https://github.com/ev3dev-lang-java/batteryMonitor) (A Java utility to monitor the Battery)
-
-But it is possible to install the following libraries if your project requires them.
+It is possible to install the following libraries if your project requires them.
 
 + [OpenCV](http://docs.opencv.org/2.4/doc/tutorials/introduction/desktop_java/java_dev_intro.html)
 + [RXTX](https://github.com/rxtx/rxtx) (Serial port library used on [RPLIDAR4J](https://github.com/ev3dev-lang-java/RPLidar4J))

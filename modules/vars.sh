@@ -37,9 +37,3 @@ BATT_PISTORMS="/sys/class/power_supply/pistorms-battery"
 # installer copy
 INSTALLER_DIR="/home/robot/installer"
 INSTALLER_EXE="/home/robot/installer/installer.sh"
-
-# battery monitor
-BATTMON_URL="https://github.com/ev3dev-lang-java/batteryMonitor/raw/release/v0.2.0-RELEASE/releases/batteryMonitor-0.2.0-RELEASE.zip"
-BATTMON_FILE="/home/robot/batterymonitor.zip"
-BATTMON_ZIPBASE="/home/robot/batteryMonitor-0.2.0-RELEASE"
-BATTMON_BASE="/home/robot/batteryMonitor"
