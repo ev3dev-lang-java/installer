@@ -92,14 +92,8 @@ function java_install() {
     JAVA_VERSION="$(echo "$JAVA_VERSION_RAW" | awk -F '"' '/version/ {print $2}')"
     JAVA_VERSION_LATEST="${JAVA_LATEST[$PLATFORM]}"
 
-    echo "Installed Java version: '${JAVA_VERSION}'"
-
-    if [ "$JAVA_VERSION" != "$JAVA_VERSION_LATEST" ]; then
-        echo "Installing latest Java version ($JAVA_VERSION_LATEST)..."
-        java_just_install
-    else
-        echo "Latest major Java version is installed."
-    fi
+    echo "Installed Java version: '${JAVA_VERSION}', latest '${JAVA_VERSION_LATEST}', installing anyway."
+    java_just_install
 }
 
 #############################
