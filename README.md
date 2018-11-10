@@ -11,8 +11,7 @@ This project tries to save time in this process.
 
 The installer will install the following libraries by default:
 
-+ Java OpenJDK 10 (Java Runtime Image) for EV3 Brick
-+ Java JDK 8 (Only for BrickPi/PiStorms) (It is necessary to upgrade to OpenJDK 10)
++ Java OpenJDK 11 (Java Runtime Image) for all bricks
 
 It is possible to install the following libraries if your project requires them.
 
