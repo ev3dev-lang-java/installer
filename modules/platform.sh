@@ -3,7 +3,7 @@
 PLATFORM="unknown"
 
 #1. Detect platform
-if [ -d "$BATT_EV3" ]; then
+if [ -d "$BATT_EV3_STRETCH" ] || [ -d "$BATT_EV3_JESSIE" ]; then
     PLATFORM="ev3"
 
 elif [ -d "$BATT_BRICKPI" ]; then
