@@ -10,12 +10,10 @@ function java_install_bundle() {
         rm -rf "$JRI_PATH_NEW"
     fi
 
-    if [ ! -f "$JRI_ZIP" ]; then
-        echo "Downloading new Java..."
-        wget "$JRI_URL" -O "$JRI_ZIP"
-    else
-        echo "Java archive found, using cached."
-    fi
+    pushd "$(dirname $JRI_ZIP)" >/dev/null
+    echo "Downloading Java..."
+    wget -N "$JRI_URL"
+    popd >/dev/null
 
     # extract it, rename it and point the symlink to it
     echo "Java package acquired, installing..."
