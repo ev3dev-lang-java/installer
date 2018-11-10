@@ -19,7 +19,7 @@ function java_install_bundle() {
     echo "Java package acquired, installing..."
     tar -xf "$JRI_ZIP" -C "$JRI_OPT"
     mv "$JRI_PATH_ZIP" "$JRI_PATH_NEW"
-    update-alternatives --install /usr/bin/java java "$JRI_EXE" "$JRI_PRIORITY"
+    update-alternatives --install "/usr/bin/java" "java" "$JRI_EXE" "$JRI_PRIORITY"
 
     JAVA_REAL_EXE="$JRI_EXE"
 }
@@ -105,7 +105,7 @@ function java_install() {
 #############################
 # Perform maintenance tasks
 function java_postinstall() {
-    update-alternatives --set "/usr/bin/java" "$JAVA_REAL_EXE"
+    update-alternatives --set "java" "$JAVA_REAL_EXE"
 
     echo "Output of 'java -version':"
     "$JAVA_REAL_EXE" -version
