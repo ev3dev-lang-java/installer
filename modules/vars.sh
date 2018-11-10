@@ -14,7 +14,7 @@ JDEB_REPO="deb http://ftp.debian.org/debian buster main contrib non-free"
 JDEB_PKG="openjdk-11-jre-headless"
 JDEB_TMP_LINK="/usr/lib/jvm/java-11-openjdk-armhf/bin/java"
 
-declare -A JAVA_LATEST
+declare -g -A JAVA_LATEST
 JAVA_LATEST[ev3]="11"
 JAVA_LATEST[brickpi]="11"
 JAVA_LATEST[brickpi3]="11"
