@@ -5,7 +5,7 @@
 
 MODULE="unknown"
 MODULE_FOLDER="/home/robot/installer/module"
-ROOT_URL="https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/modules"
+ROOT_URL="https://raw.githubusercontent.com/ev3dev-lang-java/installer/master/modules"
 
 # $1 => module name
 function download_module() {
