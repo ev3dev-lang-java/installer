@@ -38,7 +38,7 @@ echo
 echo "##############################"
 echo "# EV3Dev-lang-java Installer #"
 echo "##############################"
-echo "# Last update: 2018/04/14    #"
+echo "# Last update: 2018/11/10    #"
 echo "##############################"
 echo
 
