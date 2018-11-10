@@ -8,17 +8,10 @@ if [ "$PLATFORM" == "ev3"      ] ||
    [ "$PLATFORM" == "pistorms" ]; then
 
     apt-get update
-    
-    if [ "$(isInstalled libopencv2.4-java)" == "no" ]; then
-        apt-get install --yes --no-install-recommends libopencv2.4-java
-    fi
-    
-    if [ "$(isInstalled librxtx-java)" == "no" ]; then
-        apt-get install --yes --no-install-recommends librxtx-java
-    fi
+    apt-get install --yes --no-install-recommends libopencv2.4-java librxtx-java
 
 else
-    echo "This platform: $PLATFORM is not suitable for Battery Monitor."
+    echo "This platform: $PLATFORM is not suitable for native libraries."
     echo
 fi
 
