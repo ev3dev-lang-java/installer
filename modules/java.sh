@@ -4,23 +4,22 @@
 # Install the latest EV3 JRI bundle
 function java_install_bundle() {
     if [ -d "$JRI_PATH_NEW" ]; then
-        echo "Sorry, we detected a previous installation in path: /opt/jri-10-build-050"
+        echo "Detected a previous installation in path: $JRI_PATH_NEW"
+        echo "Deleting and reinstalling."
         echo
-        exit 1
+        rm -rf "$JRI_PATH_NEW"
     fi
 
-    if [ ! -f "$JRI_ZIP" ]; then
-        echo "Downloading new Java..."
-        wget "$JRI_URL" -O "$JRI_ZIP"
-    else
-        echo "Java archive found, using cached."
-    fi
+    pushd "$(dirname $JRI_ZIP)" >/dev/null
+    echo "Downloading Java..."
+    wget -N "$JRI_URL"
+    popd >/dev/null
 
     # extract it, rename it and point the symlink to it
     echo "Java package acquired, installing..."
     tar -xf "$JRI_ZIP" -C "$JRI_OPT"
     mv "$JRI_PATH_ZIP" "$JRI_PATH_NEW"
-    update-alternatives --install /usr/bin/java java "$JRI_EXE" "$JRI_PRIORITY"
+    update-alternatives --install "/usr/bin/java" "java" "$JRI_EXE" "$JRI_PRIORITY"
 
     JAVA_REAL_EXE="$JRI_EXE"
 }
@@ -93,20 +92,14 @@ function java_install() {
     JAVA_VERSION="$(echo "$JAVA_VERSION_RAW" | awk -F '"' '/version/ {print $2}')"
     JAVA_VERSION_LATEST="${JAVA_LATEST[$PLATFORM]}"
 
-    echo "Installed Java version: '${JAVA_VERSION}'"
-
-    if [ "$JAVA_VERSION" != "$JAVA_VERSION_LATEST" ]; then
-        echo "Installing latest Java version ($JAVA_VERSION_LATEST)..."
-        java_just_install
-    else
-        echo "Latest major Java version is installed."
-    fi
+    echo "Installed Java version: '${JAVA_VERSION}', latest '${JAVA_VERSION_LATEST}', installing anyway."
+    java_just_install
 }
 
 #############################
 # Perform maintenance tasks
 function java_postinstall() {
-    update-alternatives --set "/usr/bin/java" "$JAVA_REAL_EXE"
+    update-alternatives --set "java" "$JAVA_REAL_EXE"
 
     echo "Output of 'java -version':"
     "$JAVA_REAL_EXE" -version
