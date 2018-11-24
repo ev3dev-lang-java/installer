@@ -2,7 +2,7 @@
 
 # java archive paths
 JRI_OPT="/opt"
-JRI_URL="https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_build_ev3_linux/40/artifact/build/jri-ev3.tar.gz"
+JRI_URL="https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_build_ev3_linux/lastSuccessfulBuild/artifact/build/jri-ev3.tar.gz"
 JRI_ZIP="/home/robot/installer/jri-ev3.tar.gz"
 JRI_PATH_ZIP="$JRI_OPT/jri"
 JRI_PATH_NEW="$JRI_OPT/jri-11"
