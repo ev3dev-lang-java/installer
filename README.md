@@ -11,7 +11,7 @@ This project tries to save time in this process.
 
 The installer will install the following libraries by default:
 
-+ Java OpenJDK 11 (Java Runtime Image) for all bricks
++ OpenJDK 11 JRI for EV3, OpenJDK 11 JRE for the rest of the bricks
 
 It is possible to install the following libraries if your project requires them.
 
@@ -38,9 +38,7 @@ sudo reboot
 
 ```
 cd /home/robot
-mkdir installer
-cd installer
-wget -N https://raw.githubusercontent.com/ev3dev-lang-java/installer/develop/installer.sh
+wget -N https://raw.githubusercontent.com/ev3dev-lang-java/installer/master/installer.sh
 chmod +x installer.sh
 sudo ./installer.sh help
 sudo ./installer.sh
