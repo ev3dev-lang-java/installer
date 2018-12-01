@@ -23,8 +23,25 @@ function set_configuration() {
     declare -g LIB_PKGS=( libopencv2.4-java librxtx-java )
     declare -g JRI_PKGS=( jri-11-ev3 )
     declare -g JDEB_PKGS=( openjdk-11-jre-headless )
+    declare -g JAVA_LIBRARY_LIST=( \
+        "https://jitpack.io/com/github/ev3dev-lang-java/ev3dev-lang-java/2.4.16/ev3dev-lang-java-2.4.16.jar"  \
+        "https://jitpack.io/com/github/ev3dev-lang-java/lejos-commons/0.7.2/lejos-commons-0.7.2.jar"  \
+        "http://central.maven.org/maven2/net/java/dev/jna/jna/4.5.2/jna-4.5.2.jar"  \
+        "http://central.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar"  \
+        "http://central.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar"  \
+        "http://central.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar"  \
+        "http://central.maven.org/maven2/org/slf4j/slf4j-simple/1.7.25/slf4j-simple-1.7.25.jar" \
+    )
+
+    JAVA_LIBRARY_DIR="/home/robot/java/libraries"
+
+    JAVA_APPCDS_DIR="/home/robot/java/appcds"
+    JAVA_APPCDS_FILE="$JAVA_APPCDS_DIR/all.lst"
 
     # brickpi java repository
+    JRI_CLASSLIST="/usr/lib/jvm/jri-11-ev3/lib/classlist"
+    JRE_CLASSLIST="/usr/lib/jvm/java-11-openjdk-armhf/lib/classlist"
+
     JDEB_REPO_NAME="stretch-backports"
     JDEB_REPO="deb http://ftp.debian.org/debian stretch-backports main"
     JDEB_TMP_LINK="/usr/lib/jvm/java-11-openjdk-armhf/bin/java"
@@ -50,11 +67,10 @@ function detect_platform() {
     PLATFORM="unknown"
 
     #1. Detect platform
-    if [ -d "$BATT_EV3_STRETCH" ]
-    || [ -d "$BATT_EV3_JESSIE"  ]; then PLATFORM="ev3"
-    elif [ -d "$BATT_BRICKPI"   ]; then PLATFORM="brickpi"
-    elif [ -d "$BATT_BRICKPI3"  ]; then PLATFORM="brickpi3"
-    elif [ -d "$BATT_PISTORMS"  ]; then PLATFORM="pistorms"
+    if [ -d "$BATT_EV3_STRETCH" ] || [ -d "$BATT_EV3_JESSIE"  ]; then PLATFORM="ev3";
+    elif [ -d "$BATT_BRICKPI"   ]; then PLATFORM="brickpi";
+    elif [ -d "$BATT_BRICKPI3"  ]; then PLATFORM="brickpi3";
+    elif [ -d "$BATT_PISTORMS"  ]; then PLATFORM="pistorms";
     fi
     echo "Platform detected: $PLATFORM"
     echo
@@ -68,6 +84,13 @@ function detect_platform() {
         echo
         exit 1
     fi
+
+    case "$PLATFORM" in
+    ev3) CLASSLIST="$JRI_CLASSLIST" ;;
+    brickpi) CLASSLIST="$JRE_CLASSLIST" ;;
+    brickpi3) CLASSLIST="$JRE_CLASSLIST" ;;
+    pistorms) CLASSLIST="$JRE_CLASSLIST" ;;
+    esac
 }
 
 ##########################################
@@ -75,12 +98,13 @@ function detect_platform() {
 function do_help() {
     echo "Installer options:"
     echo "sudo ./installer.sh java ... installs Java"
-    echo "sudo ./installer.sh libs ... installs RXTX and OpenCV libraries"
+    echo "sudo ./installer.sh nativeLibs ... installs RXTX and OpenCV libraries"
+    echo "sudo ./installer.sh javaLibs ... installs ev3dev-lang-java libraries"
 }
 
 ###########################
 # Install OpenCV and RXTX
-function do_libs() {
+function do_native() {
     echo "Installing OpenCV and RXTX."
     apt-get update || return $?
     apt-get install --yes --no-install-recommends ${LIB_PKGS[*]} || return $?
@@ -130,6 +154,7 @@ function java_install_jri() {
     apt-get install --yes --no-install-recommends ${JRI_PKGS[*]} || return $?
 
     JAVA_REAL_EXE="$(which java)"
+    CLASSLIST="$JRI_CLASSLIST"
 }
 
 ########################################
@@ -139,7 +164,7 @@ function java_install_ppa() {
     # Add backports repo to Stretch
 
     # remove workaround from Buster
-    rm /etc/apt/preferences.d/jdk
+    rm -f /etc/apt/preferences.d/jdk
 
     # workaround for cyclic dependency, dunno if still necessary
     ln -sf "$JDEB_TMP_LINK" "/usr/bin/java"
@@ -152,6 +177,26 @@ function java_install_ppa() {
     apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" ${JDEB_PKGS[*]} || return $?
 
     JAVA_REAL_EXE="$(which java)"
+}
+
+##########################
+# Download ELJ libraries
+function do_java_download() {
+    rm -rf "$JAVA_LIBRARY_DIR"
+    mkdir -p "$JAVA_LIBRARY_DIR"
+    wget -nv -N -P "$JAVA_LIBRARY_DIR" ${JAVA_LIBRARY_LIST[*]}
+}
+
+########################################
+# Dump JRI & library class list
+function do_java_dump() {
+    mkdir -p "$JAVA_APPCDS_DIR"
+    rm -f "$JAVA_APPCDS_FILE"
+    ( cat "$CLASSLIST";
+    find "$JAVA_LIBRARY_DIR" -type f -exec jar tf {} \; |
+    egrep '^.*\.class$' |
+    sed 's/\.class$//' ) |
+    sort -h >"$JAVA_APPCDS_FILE"
 }
 
 ######################
@@ -178,8 +223,13 @@ elif [ "$1" == "java" ]; then
     print_java
     exit 0
 
-elif [ "$1" == "libs" ]; then
-    do_libs
+elif [ "$1" == "nativeLibs" ]; then
+    do_native
+    exit $?
+
+elif [ "$1" == "javaLibs" ]; then
+    do_java_download
+    do_java_dump
     exit $?
 fi
 
