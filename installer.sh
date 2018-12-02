@@ -21,8 +21,8 @@ function print_info_header() {
 function set_configuration() {
     # packages
     LIB_PKGS="libopencv2.4-java librxtx-java"
-    JRI_PKGS="time jri-11-ev3"
-    JRE_PKGS="time openjdk-11-jre-headless"
+    JRI_PKGS="jri-11-ev3"
+    JRE_PKGS="openjdk-11-jre-headless"
 
     # class lists
     JRI_CLASSLIST="/usr/lib/jvm/jri-11-ev3/lib/classlist"
