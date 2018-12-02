@@ -97,6 +97,7 @@ function detect_platform() {
 # Print the help message for this script
 function do_help() {
     echo "Installer options:"
+    echo "sudo ./installer.sh update ... update APT repositories"
     echo "sudo ./installer.sh java ... installs Java"
     echo "sudo ./installer.sh nativeLibs ... installs RXTX and OpenCV libraries"
     echo "sudo ./installer.sh javaLibs ... installs ev3dev-lang-java libraries"
@@ -106,7 +107,6 @@ function do_help() {
 # Install OpenCV and RXTX
 function do_native() {
     echo "Installing OpenCV and RXTX."
-    apt-get update || return $?
     apt-get install --yes --no-install-recommends ${LIB_PKGS[*]} || return $?
 }
 
@@ -151,7 +151,6 @@ function java_find() {
 ######################################
 # Install the latest OpenJDK for EV3
 function java_install_jri() {
-    apt-get update || return $?
     apt-get install --yes --no-install-recommends ${JRI_PKGS[*]} || return $?
 
     JAVA_REAL_EXE="$(which java)"
@@ -221,6 +220,9 @@ detect_platform
 if [ "$1" == "help" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     do_help
     exit 0
+
+elif [ "$1" == "update" ]; then
+    apt-get update
 
 elif [ "$1" == "java" ]; then
     java_find || exit $?
