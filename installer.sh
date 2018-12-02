@@ -199,6 +199,10 @@ function do_java_dump() {
     sort -h >"$JAVA_APPCDS_FILE"
 }
 
+function do_fixup_perms() {
+    chown robot:robot -R /home/robot
+}
+
 ######################
 # Print Java version
 function print_java() {
@@ -230,6 +234,7 @@ elif [ "$1" == "nativeLibs" ]; then
 elif [ "$1" == "javaLibs" ]; then
     do_java_download
     do_java_dump
+    do_fixup_perms
     exit $?
 fi
 
