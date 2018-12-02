@@ -96,6 +96,7 @@ function do_help() {
     echo "sudo ./installer.sh java ... installs Java"
     echo "sudo ./installer.sh nativeLibs ... installs RXTX and OpenCV libraries"
     echo "sudo ./installer.sh javaLibs ... installs ev3dev-lang-java libraries"
+    echo "sudo ./installer.sh appcds ... dumps class list from installed libraries"
 }
 
 ###########################
@@ -180,6 +181,7 @@ function do_java_download() {
     rm -rf "$JAVA_LIBRARY_DIR"
     mkdir -p "$JAVA_LIBRARY_DIR"
     wget -nv -N -P "$JAVA_LIBRARY_DIR" $JAVA_LIBRARY_LIST
+    return $?
 }
 
 ########################################
@@ -192,11 +194,13 @@ function do_java_dump() {
         find "$JAVA_LIBRARY_DIR" -type f -exec jar tf {} \; |
             egrep '^.*\.class$' |
                 sed 's/\.class$//' ) | sort -h >"$JAVA_APPCDS_FILE"
+    return $?
 }
 
 function do_fixup_perms() {
     echo "Fixing permissions on /home/robot..."
     chown robot:robot -R /home/robot
+    return $?
 }
 
 ######################
@@ -232,10 +236,15 @@ elif [ "$1" = "nativeLibs" ]; then
     exit $?
 
 elif [ "$1" = "javaLibs" ]; then
-    do_java_download
-    do_java_dump
+    do_java_download || exit $?
     do_fixup_perms
     exit $?
+
+elif [ "$1" = "appcds" ]; then
+    do_java_dump || exit $?
+    do_fixup_perms
+    exit $?
+
 fi
 
 echo "No action specified. Try running help."
