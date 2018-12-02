@@ -176,6 +176,7 @@ function java_install_ppa() {
 ##########################
 # Download ELJ libraries
 function do_java_download() {
+    echo "Downloading Java libraries..."
     rm -rf "$JAVA_LIBRARY_DIR"
     mkdir -p "$JAVA_LIBRARY_DIR"
     wget -nv -N -P "$JAVA_LIBRARY_DIR" $JAVA_LIBRARY_LIST
@@ -184,6 +185,7 @@ function do_java_download() {
 ########################################
 # Dump JRI & library class list
 function do_java_dump() {
+    echo "Dumping AppCDS class list..."
     mkdir -p "$JAVA_APPCDS_DIR"
     rm -f "$JAVA_APPCDS_FILE"
     (   cat "$CLASSLIST";
@@ -193,6 +195,7 @@ function do_java_dump() {
 }
 
 function do_fixup_perms() {
+    echo "Fixing permissions on /home/robot..."
     chown robot:robot -R /home/robot
 }
 
