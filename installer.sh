@@ -151,6 +151,7 @@ function java_find() {
 ######################################
 # Install the latest OpenJDK for EV3
 function java_install_jri() {
+    apt-get update || return $?
     apt-get install --yes --no-install-recommends ${JRI_PKGS[*]} || return $?
 
     JAVA_REAL_EXE="$(which java)"
