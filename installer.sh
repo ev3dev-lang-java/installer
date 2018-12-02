@@ -20,38 +20,33 @@ function print_info_header() {
 # Set global configuration variables
 function set_configuration() {
     # packages
-    declare -g LIB_PKGS=( libopencv2.4-java librxtx-java )
-    declare -g JRI_PKGS=( jri-11-ev3 )
-    declare -g JDEB_PKGS=( openjdk-11-jre-headless )
-    declare -g JAVA_LIBRARY_LIST=( \
-        "https://jitpack.io/com/github/ev3dev-lang-java/ev3dev-lang-java/2.4.16/ev3dev-lang-java-2.4.16.jar"  \
-        "https://jitpack.io/com/github/ev3dev-lang-java/lejos-commons/0.7.2/lejos-commons-0.7.2.jar"  \
-        "http://central.maven.org/maven2/net/java/dev/jna/jna/4.5.2/jna-4.5.2.jar"  \
-        "http://central.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar"  \
-        "http://central.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar"  \
-        "http://central.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar"  \
-        "http://central.maven.org/maven2/org/slf4j/slf4j-simple/1.7.25/slf4j-simple-1.7.25.jar" \
-    )
+    LIB_PKGS="libopencv2.4-java librxtx-java"
+    JRI_PKGS="jri-11-ev3"
+    JRE_PKGS="openjdk-11-jre-headless"
 
-    JAVA_LIBRARY_DIR="/home/robot/java/libraries"
-
-    JAVA_APPCDS_DIR="/home/robot/java/appcds"
-    JAVA_APPCDS_FILE="$JAVA_APPCDS_DIR/all.lst"
-
-    # brickpi java repository
+    # class lists
     JRI_CLASSLIST="/usr/lib/jvm/jri-11-ev3/lib/classlist"
     JRE_CLASSLIST="/usr/lib/jvm/java-11-openjdk-armhf/lib/classlist"
 
-    JDEB_REPO_NAME="stretch-backports"
-    JDEB_REPO="deb http://ftp.debian.org/debian stretch-backports main"
-    JDEB_TMP_LINK="/usr/lib/jvm/java-11-openjdk-armhf/bin/java"
+    # brickpi java
+    JRE_REPO_NAME="stretch-backports"
+    JRE_REPO="deb http://ftp.debian.org/debian stretch-backports main"
+    JRE_TMP_LINK="/usr/lib/jvm/java-11-openjdk-armhf/bin/java"
 
-    # latest java versions
-    declare -g -A JAVA_LATEST
-    JAVA_LATEST[ev3]="11"
-    JAVA_LATEST[brickpi]="11"
-    JAVA_LATEST[brickpi3]="11"
-    JAVA_LATEST[pistorms]="11"
+    # java libraries
+    JAVA_LIBRARY_DIR="/home/robot/java/libraries"
+    JAVA_LIBRARY_LIST=""
+    JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST https://jitpack.io/com/github/ev3dev-lang-java/ev3dev-lang-java/2.4.16/ev3dev-lang-java-2.4.16.jar"
+    JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST https://jitpack.io/com/github/ev3dev-lang-java/lejos-commons/0.7.2/lejos-commons-0.7.2.jar"
+    JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/net/java/dev/jna/jna/4.5.2/jna-4.5.2.jar"
+    JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar"
+    JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar"
+    JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar"
+    JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/org/slf4j/slf4j-simple/1.7.25/slf4j-simple-1.7.25.jar"
+
+    # java appcds list
+    JAVA_APPCDS_DIR="/home/robot/java/appcds"
+    JAVA_APPCDS_FILE="$JAVA_APPCDS_DIR/all.lst"
 
     # platform detection
     BATT_EV3_STRETCH="/sys/class/power_supply/lego-ev3-battery"
@@ -75,7 +70,7 @@ function detect_platform() {
     echo "Platform detected: $PLATFORM"
     echo
 
-    if [ "$PLATFORM" == "unknown" ]; then
+    if [ "$PLATFORM" = "unknown" ]; then
         echo "Sorry, this platform is not recognized by the installer."
         echo "This installer was designed for EV3Dev hardware."
         echo
@@ -107,18 +102,18 @@ function do_help() {
 # Install OpenCV and RXTX
 function do_native() {
     echo "Installing OpenCV and RXTX."
-    apt-get install --yes --no-install-recommends ${LIB_PKGS[*]} || return $?
+    apt-get install --yes --no-install-recommends $LIB_PKGS || return $?
 }
 
 ###########################################
 # Install Java by a platform specific way
 function java_install() {
-    if [ "$PLATFORM" == "ev3" ]; then
+    if [ "$PLATFORM" = "ev3" ]; then
         java_install_jri
         return $?
-    elif [ "$PLATFORM" == "brickpi"  ] ||
-         [ "$PLATFORM" == "brickpi3" ] ||
-         [ "$PLATFORM" == "pistorms" ]; then
+    elif [ "$PLATFORM" = "brickpi"  ] ||
+         [ "$PLATFORM" = "brickpi3" ] ||
+         [ "$PLATFORM" = "pistorms" ]; then
         java_install_ppa
         return $?
     fi
@@ -131,7 +126,7 @@ function java_find() {
         echo "Found java executable in PATH"
         JAVA_REAL_EXE="$(which java)"
 
-    elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+    elif [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ];  then
         echo "Found java executable in JAVA_HOME"
         JAVA_REAL_EXE="$JAVA_HOME/bin/java"
 
@@ -142,16 +137,15 @@ function java_find() {
 
     JAVA_VERSION_RAW="$("$JAVA_REAL_EXE" -version 2>&1)"
     JAVA_VERSION="$(echo "$JAVA_VERSION_RAW" | awk -F '"' '/version/ {print $2}')"
-    JAVA_VERSION_LATEST="${JAVA_LATEST[$PLATFORM]}"
 
-    echo "Installed Java version: '${JAVA_VERSION}', latest '${JAVA_VERSION_LATEST}', installing anyway."
+    echo "Installed Java version: '${JAVA_VERSION}', installing anyway."
     return 0
 }
 
 ######################################
 # Install the latest OpenJDK for EV3
 function java_install_jri() {
-    apt-get install --yes --no-install-recommends ${JRI_PKGS[*]} || return $?
+    apt-get install --yes --no-install-recommends $JRI_PKGS || return $?
 
     JAVA_REAL_EXE="$(which java)"
     CLASSLIST="$JRI_CLASSLIST"
@@ -174,7 +168,7 @@ function java_install_ppa() {
     apt-get update  || return $?
 
     # install package (the symlink above gets discarded, but it is needed during the installation)
-    apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" ${JDEB_PKGS[*]} || return $?
+    apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" $JDEB_PKGS || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }
@@ -184,7 +178,7 @@ function java_install_ppa() {
 function do_java_download() {
     rm -rf "$JAVA_LIBRARY_DIR"
     mkdir -p "$JAVA_LIBRARY_DIR"
-    wget -nv -N -P "$JAVA_LIBRARY_DIR" ${JAVA_LIBRARY_LIST[*]}
+    wget -nv -N -P "$JAVA_LIBRARY_DIR" $JAVA_LIBRARY_LIST
 }
 
 ########################################
@@ -192,11 +186,10 @@ function do_java_download() {
 function do_java_dump() {
     mkdir -p "$JAVA_APPCDS_DIR"
     rm -f "$JAVA_APPCDS_FILE"
-    ( cat "$CLASSLIST";
-    find "$JAVA_LIBRARY_DIR" -type f -exec jar tf {} \; |
-    egrep '^.*\.class$' |
-    sed 's/\.class$//' ) |
-    sort -h >"$JAVA_APPCDS_FILE"
+    (   cat "$CLASSLIST";
+        find "$JAVA_LIBRARY_DIR" -type f -exec jar tf {} \; |
+            egrep '^.*\.class$' |
+                sed 's/\.class$//' ) | sort -h >"$JAVA_APPCDS_FILE"
 }
 
 function do_fixup_perms() {
@@ -217,24 +210,25 @@ print_info_header
 set_configuration
 detect_platform
 
-if [ "$1" == "help" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+if [ "$1" = "help" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     do_help
     exit 0
 
-elif [ "$1" == "update" ]; then
+elif [ "$1" = "update" ]; then
     apt-get update
+    exit $?
 
-elif [ "$1" == "java" ]; then
+elif [ "$1" = "java" ]; then
     java_find || exit $?
     java_install || exit $?
     print_java
     exit 0
 
-elif [ "$1" == "nativeLibs" ]; then
+elif [ "$1" = "nativeLibs" ]; then
     do_native
     exit $?
 
-elif [ "$1" == "javaLibs" ]; then
+elif [ "$1" = "javaLibs" ]; then
     do_java_download
     do_java_dump
     do_fixup_perms
