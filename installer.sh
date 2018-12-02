@@ -207,11 +207,6 @@ function print_java() {
     "$JAVA_REAL_EXE" -version
 }
 
-function do_install_time() {
-    apt-get install --yes --no-install-recommends time
-    exit $?
-}
-
 # MAIN PROGRAM
 
 print_info_header
@@ -223,7 +218,6 @@ if [ "$1" == "help" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     exit 0
 
 elif [ "$1" == "java" ]; then
-    do_install_time || exit $?
     java_find || exit $?
     java_install || exit $?
     print_java
