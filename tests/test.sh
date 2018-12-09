@@ -22,7 +22,8 @@ doTest java
 doTest nativeLibs
 doTest javaLibs
 
-if [ "x$dist" = "xstretch" ]; then
+# appcds is supported only on stretch ev3
+if [ "x$dist" = "xstretch" ] && [ "x$hw" = "xev3" ]; then
     doTest appcds
 fi
 
