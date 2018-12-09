@@ -16,4 +16,4 @@ RUN mkdir -p /home/robot/java && \
 
 USER robot
 WORKDIR /home/robot/java
-CMD ["/home/robot/java/test.sh"]
+CMD ["/home/robot/java/test.sh", "${DIST}", "${HW_PLATFORM}"]

@@ -4,9 +4,12 @@
 # CI script to test if the installer works.
 #
 
-if [ "x$HW_PLATFORM" = "xev3" ]; then
+DIST="$1"
+HW="$2"
+
+if [ "x$HW" = "xev3" ]; then
     export INSTALLER_OVERRIDE_PLATFORM=ev3
-elif [ "x$HW_PLATFORM" = "xrpi2" ]; then
+elif [ "x$HW" = "xrpi2" ]; then
     export INSTALLER_OVERRIDE_PLATFORM=brickpi3
 fi
 
