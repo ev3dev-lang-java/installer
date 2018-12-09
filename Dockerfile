@@ -10,7 +10,7 @@ ENV hw=$HW_PLATFORM
 COPY installer.sh installer-jessie.sh test.sh /tmp/
 
 RUN mkdir -p /home/robot/java && \
-    if [ "x$dist" = "stretch" ]; then \
+    if [ "x$dist" = "xstretch" ]; then \
       echo "Testing Stretch"; install -o robot -g robot -m 0775 /tmp/installer.sh /home/robot/java/installer.sh; \
     else \
       echo "Testing Jessie"; install -o robot -g robot -m 0775 /tmp/installer-jessie.sh /home/robot/java/installer.sh; \
