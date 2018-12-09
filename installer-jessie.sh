@@ -187,6 +187,10 @@ function java_install_ppa() {
     echo "$JRE_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
     apt-get update  || return $?
 
+    # workaround some weird bug
+    mkdir -p /usr/lib/jvm/java-8-openjdk-armhf/jre/lib/arm/
+    ln -s client /usr/lib/jvm/java-8-openjdk-armhf/jre/lib/arm/server
+
     # install package
     apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JRE_PKGS  || return $?
 
