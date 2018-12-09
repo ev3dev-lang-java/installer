@@ -1,20 +1,23 @@
 ARG DIST=stretch
 ARG HW_PLATFORM=ev3
 FROM ev3dev/ev3dev-$DIST-$HW_PLATFORM-generic:latest
-ENV DIST=$DIST
-ENV HW_PLATFORM=$HW_PLATFORM
+
+ARG DIST=stretch
+ARG HW_PLATFORM=ev3
+ENV dist=$DIST
+ENV hw=$HW_PLATFORM
 
 COPY installer.sh installer-jessie.sh test.sh /tmp/
 
 RUN mkdir -p /home/robot/java && \
-    if [ "x$DIST" = "stretch" ]; then \
-      install -o robot -g robot -m 0775 /tmp/installer.sh /home/robot/java/installer.sh; \
+    if [ "x$dist" = "stretch" ]; then \
+      echo "Testing Stretch"; install -o robot -g robot -m 0775 /tmp/installer.sh /home/robot/java/installer.sh; \
     else \
-      install -o robot -g robot -m 0775 /tmp/installer-jessie.sh /home/robot/java/installer.sh; \
+      echo "Testing Jessie"; install -o robot -g robot -m 0775 /tmp/installer-jessie.sh /home/robot/java/installer.sh; \
     fi && \
     install -o robot -g robot -m 775 /tmp/test.sh /home/robot/java/test.sh && \
     chown robot:robot -R /home/robot
 
 USER robot
 WORKDIR /home/robot/java
-CMD [ "/bin/sh", "-c", "/home/robot/java/test.sh ${DIST} ${HW_PLATFORM}"]
+CMD ["/home/robot/java/test.sh"]
