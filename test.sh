@@ -11,7 +11,7 @@ elif [ "x$hw" = "xrpi2" ]; then
 fi
 
 doTest() {
-    echo "Testing: $1"
+    echo "#################### Testing: $1 ####################"
     /home/robot/java/installer.sh "$1"
     return "$?"
 }
