@@ -31,7 +31,6 @@ function set_configuration() {
     # brickpi java
     JRE_REPO_NAME="stretch-backports"
     JRE_REPO="deb http://ftp.debian.org/debian stretch-backports main"
-    JRE_TMP_LINK="/usr/lib/jvm/java-11-openjdk-armhf/bin/java"
 
     # java libraries
     JAVA_LIBRARY_DIR="/home/robot/java/libraries"
@@ -54,16 +53,12 @@ function set_configuration() {
     BATT_BRICKPI="/sys/class/power_supply/brickpi-battery"
     BATT_BRICKPI3="/sys/class/power_supply/brickpi3-battery"
     BATT_PISTORMS="/sys/class/power_supply/pistorms-battery"
-
-    LOG_PATH="/home/robot/java/changes.log"
-    DATE_NOW="$(date -R)"
 }
 
 #############################################
 # Add line to log
 function write_log() {
-    mkdir -p "$(dirname "$LOG_PATH")"
-    echo "[$DATE_NOW] $1" >>"$LOG_PATH"
+    echo "[$(date -R)] $1"
 }
 
 #############################################
@@ -71,12 +66,19 @@ function write_log() {
 function detect_platform() {
     PLATFORM="unknown"
 
-    #1. Detect platform
+    # 1. Detect platform
     if [ -d "$BATT_EV3_STRETCH" ] || [ -d "$BATT_EV3_JESSIE"  ]; then PLATFORM="ev3";
     elif [ -d "$BATT_BRICKPI"   ]; then PLATFORM="brickpi";
     elif [ -d "$BATT_BRICKPI3"  ]; then PLATFORM="brickpi3";
     elif [ -d "$BATT_PISTORMS"  ]; then PLATFORM="pistorms";
     fi
+
+    # override for tests
+    if [ -n "$INSTALLER_OVERRIDE_PLATFORM" ]; then
+        PLATFORM="$INSTALLER_OVERRIDE_PLATFORM"
+    fi
+
+    # print
     echo "Platform detected: $PLATFORM"
     echo
 
@@ -114,7 +116,7 @@ function do_help() {
 function do_native() {
     write_log "installing native libs"
     echo "Installing OpenCV and RXTX."
-    (apt-get install --yes --no-install-recommends $LIB_PKGS 2>&1 | tee "$LOG_PATH") || return $?
+    apt-get install --yes --no-install-recommends $LIB_PKGS  || return $?
 }
 
 ###########################################
@@ -160,7 +162,7 @@ function java_find() {
 function java_install_jri() {
     write_log "installing jri from ev3dev repo"
 
-    (apt-get install --yes --no-install-recommends $JRI_PKGS 2>&1 | tee "$LOG_PATH") || return $?
+    apt-get install --yes --no-install-recommends $JRI_PKGS  || return $?
 
     JAVA_REAL_EXE="$(which java)"
     CLASSLIST="$JRI_CLASSLIST"
@@ -177,15 +179,12 @@ function java_install_ppa() {
     # remove workaround from Buster
     rm -f /etc/apt/preferences.d/jdk
 
-    # workaround for cyclic dependency, dunno if still necessary
-    ln -sf "$JDEB_TMP_LINK" "/usr/bin/java"
-
     # add repo, update
-    echo "$JDEB_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
-    (apt-get update 2>&1 | tee "$LOG_PATH") || return $?
+    echo "$JRE_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
+    apt-get update  || return $?
 
-    # install package (the symlink above gets discarded, but it is needed during the installation)
-    (apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" $JDEB_PKGS 2>&1 | tee "$LOG_PATH") || return $?
+    # install package
+    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JRE_PKGS  || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }
@@ -198,7 +197,7 @@ function do_java_download() {
     echo "Downloading Java libraries..."
     rm -rf "$JAVA_LIBRARY_DIR"
     mkdir -p "$JAVA_LIBRARY_DIR"
-    (wget -nv -N -P "$JAVA_LIBRARY_DIR" $JAVA_LIBRARY_LIST 2>&1 | tee "$LOG_PATH")
+    wget -nv -N -P "$JAVA_LIBRARY_DIR" $JAVA_LIBRARY_LIST
     return $?
 }
 
@@ -228,7 +227,7 @@ function do_fixup_perms() {
 function print_java() {
     echo
     echo "-> Java version:"
-    ("$JAVA_REAL_EXE" -version 2>&1 | tee "$LOG_PATH")
+    "$JAVA_REAL_EXE" -version
 }
 
 # MAIN PROGRAM
@@ -243,7 +242,7 @@ if [ "$1" = "help" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 
 elif [ "$1" = "update" ]; then
     write_log "apt update"
-    (apt-get update 2>&1 | tee "$LOG_PATH")
+    apt-get update
     exit $?
 
 elif [ "$1" = "java" ]; then

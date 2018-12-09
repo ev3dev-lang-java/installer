@@ -1,5 +1,7 @@
-# installer
+# Installer
 A Bash script to install everything related with [EV3Dev-lang-java](http://ev3dev-lang-java.github.io/)
+
+Test result on `master`: [![Build Status](https://travis-ci.org/ev3dev-lang-java/installer.svg?branch=master)](https://travis-ci.org/ev3dev-lang-java/installer)
 
 ## Motivation
 

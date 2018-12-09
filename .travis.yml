@@ -1,0 +1,17 @@
+language: shell
+env:
+  matrix:
+  - DIST=jessie HW_PLATFORM=ev3
+  - DIST=jessie HW_PLATFORM=rpi2
+  - DIST=stretch HW_PLATFORM=ev3
+  - DIST=stretch HW_PLATFORM=rpi2
+dist: xenial
+services: docker
+addons:
+  apt:
+    packages:
+    - qemu-user-static
+before_script:
+ - docker build --build-arg DIST=$DIST --build-arg HW_PLATFORM=$HW_PLATFORM -t ev3dev-lang-java/installer-test:latest -f tests/Dockerfile .
+script:
+ - docker run --rm ev3dev-lang-java/installer-test
