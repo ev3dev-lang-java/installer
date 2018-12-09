@@ -3,7 +3,7 @@ ARG HW_PLATFORM=ev3
 FROM ev3dev/ev3dev-$DIST-$HW_PLATFORM-generic:latest
 ENV DIST=$DIST
 
-COPY installer.sh installer-jessie.sh test.sh /tmp
+COPY installer.sh installer-jessie.sh test.sh /tmp/
 
 RUN mkdir -p /home/robot/java && \
     if [ "x$DIST" = "stretch" ]; then \
