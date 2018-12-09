@@ -10,25 +10,48 @@ elif [ "x$hw" = "xrpi2" ]; then
     export INSTALLER_OVERRIDE_PLATFORM=brickpi3
 fi
 
+
 doTest() {
     echo
     echo
     echo "####################|  Testing: $1  |####################"
     echo
-    /home/robot/java/installer.sh "$1"
+    # appcds is supported only on stretch ev3
+    if [ "x$1" = "xappcds" ]; then
+        if [ "x$dist" = "xstretch" ] && [ "x$hw" = "xev3" ]; then
+            /home/robot/java/installer.sh "$1"
+        else
+            echo "< skipping appcds test >"
+        fi
+    else
+        /home/robot/java/installer.sh "$1"
+    fi
     return "$?"
 }
 
 doTest help
 doTest update
+
+echo
+echo "#########################################################"
+echo "#                 First install run                     #"
+echo
+
 doTest java
 doTest nativeLibs
 doTest javaLibs
+doTest appcds
 
-# appcds is supported only on stretch ev3
-if [ "x$dist" = "xstretch" ] && [ "x$hw" = "xev3" ]; then
-    doTest appcds
-fi
+echo
+echo "#########################################################"
+echo "#                  Second install run                   #"
+echo
+
+doTest java
+doTest nativeLibs
+doTest javaLibs
+doTest appcds
+
 
 echo "Test successful."
 exit 0
