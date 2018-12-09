@@ -160,7 +160,7 @@ function java_install_jri() {
     mv /tmp/jri "$JRI_DIR"
 
     write_log "setting alternatives"
-    for i in "$(ls "$JRI_DIR/bin")"; do
+    for i in $(ls "$JRI_DIR/bin"); do
         update-alternatives --install "/usr/bin/$i" "$i" "$JRI_DIR/bin/$i" "$JRI_PRIORITY" 2>&1
     done
 
