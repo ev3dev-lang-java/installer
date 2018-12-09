@@ -10,7 +10,7 @@ RUN mkdir -p /home/robot/java && \
       install -o robot -g robot -m 0775 /tmp/installer.sh /home/robot/java/installer.sh; \
     else \
       install -o robot -g robot -m 0775 /tmp/installer-jessie.sh /home/robot/java/installer.sh; \
-    fi &&
+    fi && \
     install -o robot -g robot -m 775 /tmp/test.sh /home/robot/java/test.sh
 
 USER robot
