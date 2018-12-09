@@ -8,6 +8,7 @@ ENV dist=$DIST
 ENV hw=$HW_PLATFORM
 
 COPY installer.sh installer-jessie.sh test.sh /tmp/
+COPY qemu-arm-static /usr/bin/
 
 RUN mkdir -p /home/robot/java && \
     if [ "x$dist" = "xstretch" ]; then \
