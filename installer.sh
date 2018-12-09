@@ -71,12 +71,19 @@ function write_log() {
 function detect_platform() {
     PLATFORM="unknown"
 
-    #1. Detect platform
+    # 1. Detect platform
     if [ -d "$BATT_EV3_STRETCH" ] || [ -d "$BATT_EV3_JESSIE"  ]; then PLATFORM="ev3";
     elif [ -d "$BATT_BRICKPI"   ]; then PLATFORM="brickpi";
     elif [ -d "$BATT_BRICKPI3"  ]; then PLATFORM="brickpi3";
     elif [ -d "$BATT_PISTORMS"  ]; then PLATFORM="pistorms";
     fi
+
+    # override for tests
+    if [ -n "$INSTALLER_OVERRIDE_PLATFORM" ]; then
+        PLATFORM="$INSTALLER_OVERRIDE_PLATFORM"
+    fi
+
+    # print
     echo "Platform detected: $PLATFORM"
     echo
 
