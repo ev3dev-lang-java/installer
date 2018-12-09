@@ -12,7 +12,8 @@ RUN mkdir -p /home/robot/java && \
     else \
       install -o robot -g robot -m 0775 /tmp/installer-jessie.sh /home/robot/java/installer.sh; \
     fi && \
-    install -o robot -g robot -m 775 /tmp/test.sh /home/robot/java/test.sh
+    install -o robot -g robot -m 775 /tmp/test.sh /home/robot/java/test.sh && \
+    chown robot:robot -R /home/robot
 
 USER robot
 WORKDIR /home/robot/java
