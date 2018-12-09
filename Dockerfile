@@ -1,9 +1,7 @@
 ARG DIST=stretch
-ENV DIST=$DIST
-
 ARG HW_PLATFORM=ev3
-
 FROM ev3dev/ev3dev-$DIST-$HW_PLATFORM-generic:latest
+ENV DIST=$DIST
 
 COPY installer.sh installer-jessie.sh test.sh /tmp
 
