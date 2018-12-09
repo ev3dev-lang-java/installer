@@ -18,6 +18,6 @@ RUN mkdir -p /home/robot/java && \
     install -o robot -g robot -m 775 /tmp/test.sh /home/robot/java/test.sh && \
     chown robot:robot -R /home/robot
 
-USER robot
+USER root
 WORKDIR /home/robot/java
 CMD ["/home/robot/java/test.sh"]
