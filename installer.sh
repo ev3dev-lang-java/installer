@@ -31,7 +31,6 @@ function set_configuration() {
     # brickpi java
     JRE_REPO_NAME="stretch-backports"
     JRE_REPO="deb http://ftp.debian.org/debian stretch-backports main"
-    JRE_TMP_LINK="/usr/lib/jvm/java-11-openjdk-armhf/bin/java"
 
     # java libraries
     JAVA_LIBRARY_DIR="/home/robot/java/libraries"
@@ -181,11 +180,11 @@ function java_install_ppa() {
     rm -f /etc/apt/preferences.d/jdk
 
     # add repo, update
-    echo "$JDEB_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
+    echo "$JRE_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
     apt-get update  || return $?
 
     # install package (the symlink above gets discarded, but it is needed during the installation)
-    apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" $JDEB_PKGS  || return $?
+    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JDEB_PKGS  || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }

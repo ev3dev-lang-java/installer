@@ -184,11 +184,11 @@ function java_install_ppa() {
     rm -f /etc/apt/preferences.d/jdk
 
     # add repo, update
-    echo "$JDEB_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
+    echo "$JRE_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
     apt-get update  || return $?
 
     # install package
-    apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" $JDEB_PKGS  || return $?
+    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JDEB_PKGS  || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }
