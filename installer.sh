@@ -183,8 +183,8 @@ function java_install_ppa() {
     echo "$JRE_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
     apt-get update  || return $?
 
-    # install package (the symlink above gets discarded, but it is needed during the installation)
-    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JDEB_PKGS  || return $?
+    # install package
+    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JRE_PKGS  || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }

@@ -188,7 +188,7 @@ function java_install_ppa() {
     apt-get update  || return $?
 
     # install package
-    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JDEB_PKGS  || return $?
+    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JRE_PKGS  || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }
