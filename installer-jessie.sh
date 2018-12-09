@@ -49,16 +49,12 @@ function set_configuration() {
     BATT_BRICKPI="/sys/class/power_supply/brickpi-battery"
     BATT_BRICKPI3="/sys/class/power_supply/brickpi3-battery"
     BATT_PISTORMS="/sys/class/power_supply/pistorms-battery"
-
-    LOG_PATH="/home/robot/java/changes.log"
-    DATE_NOW="$(date -R)"
 }
 
 #############################################
 # Add line to log
 function write_log() {
-    mkdir -p "$(dirname "$LOG_PATH")"
-    echo "[$DATE_NOW] $1" >>"$LOG_PATH"
+    echo "[$(date -R)] $1"
 }
 
 #############################################
@@ -108,7 +104,7 @@ function do_help() {
 function do_native() {
     write_log "installing native libs"
     echo "Installing OpenCV and RXTX."
-    (apt-get install --yes --no-install-recommends $LIB_PKGS 2>&1 | tee "$LOG_PATH") || return $?
+    apt-get install --yes --no-install-recommends $LIB_PKGS 2>&1 || return $?
 }
 
 ###########################################
@@ -159,20 +155,21 @@ function java_install_jri() {
     done
     rm -rf "$JRI_DIR" || true
 
-    wget -nv "$JRI_URL" -O /tmp/jri.tar.gz 2>&1 | tee "$LOG_PATH"
+    wget -nv "$JRI_URL" -O /tmp/jri.tar.gz 2>&1 || return $?
     tar -C /tmp -xf /tmp/jri.tar.gz
     mv /tmp/jri "$JRI_DIR"
 
     write_log "setting alternatives"
     for i in "$(ls "$JRI_DIR/bin")"; do
-        update-alternatives --install "/usr/bin/$i" "$i" "$JRI_DIR/bin/$i" "$JRI_PRIORITY" 2>&1 | tee "$LOG_PATH"
+        update-alternatives --install "/usr/bin/$i" "$i" "$JRI_DIR/bin/$i" "$JRI_PRIORITY" 2>&1
     done
 
     JAVA_REAL_EXE="$(which java)"
     CLASSLIST="$JRI_CLASSLIST"
 
     write_log "dumping java cds"
-    "$JAVA_REAL_EXE" -Xshare:dump 2>&1 | tee "$LOG_PATH"
+    "$JAVA_REAL_EXE" -Xshare:dump 2>&1
+    return $?
 }
 
 ########################################
@@ -188,10 +185,10 @@ function java_install_ppa() {
 
     # add repo, update
     echo "$JDEB_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
-    (apt-get update 2>&1 | tee "$LOG_PATH") || return $?
+    apt-get update 2>&1 || return $?
 
     # install package
-    (apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" $JDEB_PKGS 2>&1 | tee "$LOG_PATH") || return $?
+    apt-get install --yes --no-install-recommends -t "$JDEB_REPO_NAME" $JDEB_PKGS 2>&1 || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }
@@ -204,7 +201,7 @@ function do_java_download() {
     echo "Downloading Java libraries..."
     rm -rf "$JAVA_LIBRARY_DIR"
     mkdir -p "$JAVA_LIBRARY_DIR"
-    (wget -nv -N -P "$JAVA_LIBRARY_DIR" $JAVA_LIBRARY_LIST 2>&1 | tee "$LOG_PATH")
+    wget -nv -N -P "$JAVA_LIBRARY_DIR" $JAVA_LIBRARY_LIST 2>&1
     return $?
 }
 
@@ -219,7 +216,7 @@ function do_fixup_perms() {
 function print_java() {
     echo
     echo "-> Java version:"
-    ("$JAVA_REAL_EXE" -version 2>&1 | tee "$LOG_PATH")
+    "$JAVA_REAL_EXE" -version 2>&1
 }
 
 # MAIN PROGRAM
@@ -234,7 +231,7 @@ if [ "$1" = "help" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 
 elif [ "$1" = "update" ]; then
     write_log "apt update"
-    (apt-get update 2>&1 | tee "$LOG_PATH")
+    apt-get update 2>&1
     exit $?
 
 elif [ "$1" = "java" ]; then
