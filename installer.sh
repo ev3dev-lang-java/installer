@@ -180,9 +180,6 @@ function java_install_ppa() {
     # remove workaround from Buster
     rm -f /etc/apt/preferences.d/jdk
 
-    # workaround for cyclic dependency, dunno if still necessary
-    ln -sf "$JDEB_TMP_LINK" "/usr/bin/java"
-
     # add repo, update
     echo "$JDEB_REPO" | tee "/etc/apt/sources.list.d/jdk.list"
     apt-get update  || return $?
