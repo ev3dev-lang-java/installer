@@ -28,9 +28,13 @@ function set_configuration() {
     LIB_PKGS="libopencv2.4-java librxtx-java"
     JRE_PKGS="openjdk-8-jre-headless"
 
+    # class lists
+    JRI_CLASSLIST="$JRI_DIR/lib/classlist"
+    JRE_CLASSLIST="/usr/lib/jvm/java-8-openjdk-armhf/lib/classlist"
+
     # brickpi java
     JRE_REPO_NAME="jessie-backports"
-    JRE_REPO="deb http://ftp.debian.org/debian jessie-backports main"
+    JRE_REPO="deb http://ftp.debian.org/debian $JRE_REPO_NAME main"
 
     # java libraries
     JAVA_LIBRARY_DIR="/home/robot/java/libraries"
@@ -42,6 +46,10 @@ function set_configuration() {
     JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar"
     JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar"
     JAVA_LIBRARY_LIST="$JAVA_LIBRARY_LIST http://central.maven.org/maven2/org/slf4j/slf4j-simple/1.7.25/slf4j-simple-1.7.25.jar"
+
+    # java appcds list
+    JAVA_APPCDS_DIR="/home/robot/java/appcds"
+    JAVA_APPCDS_FILE="$JAVA_APPCDS_DIR/all.lst"
 
     # platform detection
     BATT_EV3_STRETCH="/sys/class/power_supply/lego-ev3-battery"
@@ -87,6 +95,13 @@ function detect_platform() {
         echo
         exit 1
     fi
+
+    case "$PLATFORM" in
+    ev3) CLASSLIST="$JRI_CLASSLIST" ;;
+    brickpi) CLASSLIST="$JRE_CLASSLIST" ;;
+    brickpi3) CLASSLIST="$JRE_CLASSLIST" ;;
+    pistorms) CLASSLIST="$JRE_CLASSLIST" ;;
+    esac
 }
 
 ##########################################
@@ -97,6 +112,7 @@ function do_help() {
     echo "sudo ./installer.sh java ... installs Java"
     echo "sudo ./installer.sh nativeLibs ... installs RXTX and OpenCV libraries"
     echo "sudo ./installer.sh javaLibs ... installs ev3dev-lang-java libraries"
+    echo "sudo ./installer.sh appcds ... dumps class list from installed libraries"
 }
 
 ###########################
@@ -209,6 +225,21 @@ function do_java_download() {
     return $?
 }
 
+########################################
+# Dump JRI & library class list
+function do_java_dump() {
+    write_log "Dumping AppCDS"
+
+    echo "Dumping AppCDS class list..."
+    mkdir -p "$JAVA_APPCDS_DIR"
+    rm -f "$JAVA_APPCDS_FILE"
+    (   cat "$CLASSLIST";
+        find "$JAVA_LIBRARY_DIR" -type f -exec jar tf {} \; |
+            egrep '^.*\.class$' |
+                sed 's/\.class$//' ) | sort -h >"$JAVA_APPCDS_FILE"
+    return $?
+}
+
 function do_fixup_perms() {
     echo "Fixing permissions on /home/robot..."
     chown robot:robot -R /home/robot
@@ -250,6 +281,11 @@ elif [ "$1" = "nativeLibs" ]; then
 
 elif [ "$1" = "javaLibs" ]; then
     do_java_download || exit $?
+    do_fixup_perms
+    exit $?
+
+elif [ "$1" = "appcds" ]; then
+    do_java_dump || exit $?
     do_fixup_perms
     exit $?
 

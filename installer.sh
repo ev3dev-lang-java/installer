@@ -30,7 +30,7 @@ function set_configuration() {
 
     # brickpi java
     JRE_REPO_NAME="stretch-backports"
-    JRE_REPO="deb http://ftp.debian.org/debian stretch-backports main"
+    JRE_REPO="deb http://ftp.debian.org/debian $JRE_REPO_NAME main"
 
     # java libraries
     JAVA_LIBRARY_DIR="/home/robot/java/libraries"

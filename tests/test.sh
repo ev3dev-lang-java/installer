@@ -16,9 +16,9 @@ doTest() {
     echo
     echo "####################|  Testing: $1  |####################"
     echo
-    # appcds is supported only on stretch ev3
+    # appcds is supported only on ev3 jri
     if [ "x$1" = "xappcds" ]; then
-        if [ "x$dist" = "xstretch" ] && [ "x$hw" = "xev3" ]; then
+        if [ "x$hw" = "xev3" ]; then
             /home/robot/java/installer.sh "$1"
         else
             echo "< skipping appcds test >"
