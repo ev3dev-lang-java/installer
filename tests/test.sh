@@ -38,7 +38,8 @@ echo "#                 First install run                     #"
 echo
 
 doTest java
-doTest nativeLibs
+doTest opencv
+doTest rxtx
 doTest javaLibs
 doTest appcds
 
@@ -48,7 +49,8 @@ echo "#                  Second install run                   #"
 echo
 
 doTest java
-doTest nativeLibs
+doTest opencv
+doTest rxtx
 doTest javaLibs
 doTest appcds
 
