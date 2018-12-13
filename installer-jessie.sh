@@ -25,7 +25,8 @@ function set_configuration() {
     JRI_PRIORITY=1111
 
     # packages
-    LIB_PKGS="libopencv2.4-java librxtx-java"
+    OPENCV_PKGS="libopencv2.4-java"
+    RXTX_PKGS="librxtx-java"
     JRE_PKGS="openjdk-8-jre-headless"
 
     # class lists
@@ -108,19 +109,26 @@ function detect_platform() {
 # Print the help message for this script
 function do_help() {
     echo "Installer options:"
-    echo "sudo ./installer.sh update ... update APT repositories"
-    echo "sudo ./installer.sh java ... installs Java"
-    echo "sudo ./installer.sh nativeLibs ... installs RXTX and OpenCV libraries"
+    echo "sudo ./installer.sh update   ... update APT repositories"
+    echo "sudo ./installer.sh java     ... installs Java"
+    echo "sudo ./installer.sh opencv   ... installs OpenCV libraries"
+    echo "sudo ./installer.sh rxtx     ... installs RXTX library"
     echo "sudo ./installer.sh javaLibs ... installs ev3dev-lang-java libraries"
-    echo "sudo ./installer.sh appcds ... dumps class list from installed libraries"
+    echo "sudo ./installer.sh appcds   ... dumps class list from installed libraries"
 }
 
-###########################
-# Install OpenCV and RXTX
-function do_native() {
-    write_log "installing native libs"
-    echo "Installing OpenCV and RXTX."
-    apt-get install --yes --no-install-recommends $LIB_PKGS  || return $?
+##################
+# Install OpenCV
+function do_opencv() {
+    write_log "Installing OpenCV"
+    apt-get install --yes --no-install-recommends $OPENCV_PKGS  || return $?
+}
+
+################
+# Install RXTX
+function do_rxtx() {
+    write_log "Installing RXTX"
+    apt-get install --yes --no-install-recommends $RXTX_PKGS  || return $?
 }
 
 ###########################################
@@ -275,8 +283,12 @@ elif [ "$1" = "java" ]; then
     print_java
     exit 0
 
-elif [ "$1" = "nativeLibs" ]; then
-    do_native
+elif [ "$1" = "opencv" ]; then
+    do_opencv
+    exit $?
+
+elif [ "$1" = "rxtx" ]; then
+    do_rxtx
     exit $?
 
 elif [ "$1" = "javaLibs" ]; then
