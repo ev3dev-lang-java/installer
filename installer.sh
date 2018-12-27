@@ -20,7 +20,7 @@ function print_info_header() {
 # Set global configuration variables
 function set_configuration() {
     # packages
-    OPENCV_PKGS="libopencv2.4-java"
+    OPENCV_PKGS="libopencv2.4-java libopenmpt0"
     RXTX_PKGS="librxtx-java"
     JRI_PKGS="jri-11-ev3"
     JRE_PKGS="openjdk-11-jre-headless"
