@@ -19,11 +19,16 @@ function print_info_header() {
 ######################################
 # Set global configuration variables
 function set_configuration() {
+    # jri
+    JDK_URL="https://ci.adoptopenjdk.net/view/ev3dev/job/openjdk11_build_ev3_linux/lastSuccessfulBuild/artifact/build/jdk-ev3.tar.gz"
+    JDK_DIR="/opt/jdk-11-ev3"
+
     # packages
     OPENCV_PKGS="libopencv2.4-java libopenmpt0"
     RXTX_PKGS="librxtx-java"
     JRI_PKGS="jri-11-ev3"
     JRE_PKGS="openjdk-11-jre-headless"
+    JDK_PKGS="openjdk-11-jdk-headless"
 
     # class lists
     JRI_CLASSLIST="/usr/lib/jvm/jri-11-ev3/lib/classlist"
@@ -107,6 +112,7 @@ function do_help() {
     echo "Installer options:"
     echo "sudo ./installer.sh update   ... update APT repositories"
     echo "sudo ./installer.sh java     ... installs Java"
+    echo "sudo ./installer.sh fulljdk  ... installs full JDK on the brick (not normally necessary)"
     echo "sudo ./installer.sh opencv   ... installs OpenCV libraries"
     echo "sudo ./installer.sh rxtx     ... installs RXTX library"
     echo "sudo ./installer.sh javaLibs ... installs ev3dev-lang-java libraries"
@@ -131,13 +137,27 @@ function do_rxtx() {
 # Install Java by a platform specific way
 function java_install() {
     if [ "$PLATFORM" = "ev3" ]; then
-        java_install_jri
-        return $?
+        if [ "$1" == "small" ]; then
+            java_install_jri
+            return $?
+        elif [ "$1" == "full" ]; then
+            java_install_jri_jdk "$JDK_URL" "$JDK_DIR" "false" "jdk"
+            return $?
+        else
+            return 1
+        fi
     elif [ "$PLATFORM" = "brickpi"  ] ||
          [ "$PLATFORM" = "brickpi3" ] ||
          [ "$PLATFORM" = "pistorms" ]; then
-        java_install_ppa
-        return $?
+        if [ "$1" == "small" ]; then
+            java_install_ppa "$JRE_PKGS"
+            return $?
+        elif [ "$1" == "full" ]; then
+            java_install_ppa "$JDK_PKGS"
+            return $?
+        else
+            return 1
+        fi
     fi
 }
 
@@ -160,9 +180,47 @@ function java_find() {
     JAVA_VERSION_RAW="$("$JAVA_REAL_EXE" -version 2>&1)"
     JAVA_VERSION="$(echo "$JAVA_VERSION_RAW" | awk -F '"' '/version/ {print $2}')"
 
-    echo "Installed Java version: '${JAVA_VERSION}', installing anyway."
+    echo "Installed Java version: '${JAVA_VERSION}', proceeding with installation."
     write_log "old java ver: $JAVA_VERSION"
     return 0
+}
+
+######################################
+# Install the latest OpenJDK for EV3
+# $1 => source URL
+# $2 => destination directory
+# $3 => if alternatives should be updated (true/false)
+# $4 => in-archive directory name
+function java_install_jri_jdk() {
+    write_log "installing java manually from jenkins"
+
+    if [ "$3" = "true" ]; then
+        for i in "$(ls "$JRI_DIR/bin")"; do
+            update-alternatives --remove "$i" "$JRI_DIR/bin/$i" || true
+        done
+    fi
+    rm -rf "$2" /tmp/java-extract || true
+    mkdir -p /tmp/java-extract
+
+    wget -nv "$1" -O /tmp/java-extract/pkg.tar.gz  || return $?
+    tar -C /tmp/java-extract -xf /tmp/java-extract/pkg.tar.gz
+    mv "/tmp/java-extract/$4" "$2"
+
+    if [ "$3" = "true" ]; then
+        write_log "setting alternatives"
+        for i in $(ls "$JRI_DIR/bin"); do
+            update-alternatives --install "/usr/bin/$i" "$i" "$JRI_DIR/bin/$i" "$JRI_PRIORITY"
+        done
+        JAVA_REAL_EXE="$(which java)"
+    else
+        JAVA_REAL_EXE="$2/bin/java"
+    fi
+
+    CLASSLIST="$JRI_CLASSLIST"
+
+    write_log "dumping java cds"
+    "$JAVA_REAL_EXE" -Xshare:dump
+    return $?
 }
 
 ######################################
@@ -178,6 +236,7 @@ function java_install_jri() {
 
 ########################################
 # Install the latest Debian armhf java
+# $1 => package names
 function java_install_ppa() {
     write_log "installing jre from debian repo"
 
@@ -192,7 +251,7 @@ function java_install_ppa() {
     apt-get update  || return $?
 
     # install package
-    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $JRE_PKGS  || return $?
+    apt-get install --yes --no-install-recommends -t "$JRE_REPO_NAME" $1  || return $?
 
     JAVA_REAL_EXE="$(which java)"
 }
@@ -255,7 +314,12 @@ elif [ "$1" = "update" ]; then
 
 elif [ "$1" = "java" ]; then
     java_find || exit $?
-    java_install || exit $?
+    java_install small || exit $?
+    print_java
+    exit 0
+
+elif [ "$1" = "fulljdk" ]; then
+    java_install full || exit $?
     print_java
     exit 0
 
