@@ -219,9 +219,6 @@ function java_install_jri() {
     fi
 
     CLASSLIST="$JRI_CLASSLIST"
-
-    write_log "dumping java cds"
-    "$JAVA_REAL_EXE" -Xshare:dump
     return $?
 }
 
@@ -289,6 +286,9 @@ function do_fixup_perms() {
 ######################
 # Print Java version
 function print_java() {
+    write_log "dumping cds cache"
+    "$JAVA_REAL_EXE" -Xshare:dump
+
     echo
     echo "-> Java version:"
     "$JAVA_REAL_EXE" -version
