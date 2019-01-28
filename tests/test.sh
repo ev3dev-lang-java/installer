@@ -42,6 +42,7 @@ doTest opencv
 doTest rxtx
 doTest javaLibs
 doTest appcds
+doTest fulljdk
 
 echo
 echo "#########################################################"
@@ -53,6 +54,7 @@ doTest opencv
 doTest rxtx
 doTest javaLibs
 doTest appcds
+doTest fulljdk
 
 
 echo "Test successful."
